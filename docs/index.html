@@ -19,7 +19,11 @@
   }
   #stage {
     position: fixed; inset: 0; display: flex; align-items: center; justify-content: center;
-    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+    padding-top: max(env(safe-area-inset-top), 8px);
+    padding-right: env(safe-area-inset-right);
+    padding-left: env(safe-area-inset-left);
+    /* reserve a bottom band so the centered page never sits under the bottom nav buttons */
+    padding-bottom: calc(max(env(safe-area-inset-bottom), 12px) + 76px);
   }
   #book {
     width: min(94vw, 82vh);
@@ -56,18 +60,11 @@
   .nav:hover { background: rgba(255,255,255,.18); }
   .nav:active { transform: scale(.92); }
   .nav[disabled] { opacity: .22; pointer-events: none; }
-  /* Portrait (phone upright): the square page fills the WIDTH, so side buttons would cover content.
-     Put the arrows in the empty band BELOW the page instead. */
-  @media (orientation: portrait) {
-    #prev, #next { bottom: max(env(safe-area-inset-bottom), 22px); }
-    #prev { left: 22px; } #next { right: 22px; }
-  }
-  /* Landscape / desktop: the page fills the HEIGHT, leaving room on the sides -> vertical-center arrows. */
-  @media (orientation: landscape) {
-    #prev, #next { top: 50%; transform: translateY(-50%); }
-    #prev:active, #next:active { transform: translateY(-50%) scale(.92); }
-    #prev { left: 16px; } #next { right: 16px; }
-  }
+  /* StPageFlip always stretches to fill the width (single page in portrait, two-page spread in
+     landscape), so there is never a usable side gutter -> arrows always go in the reserved bottom
+     band (see #stage padding-bottom), which never overlaps content in any orientation. */
+  #prev, #next { bottom: max(env(safe-area-inset-bottom), 22px); }
+  #prev { left: 22px; } #next { right: 22px; }
 
   #hint {
     position: fixed; bottom: max(env(safe-area-inset-bottom), 12px); left: 50%;
