@@ -2,7 +2,7 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#111111">
 <link rel="icon" href="data:,">
 <title>ANTI-AUTOBIOGRAPHY 反自傳 — AH Student Exhibition 2026</title>
@@ -18,23 +18,23 @@
     overscroll-behavior: none; overflow: hidden;
   }
   #stage {
-    position: fixed; inset: 0; display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
+    position: fixed; inset: 0; display: flex; align-items: center; justify-content: center;
     padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
   }
   #book {
-    /* a square that always fits inside the viewport (leaving room for chrome) */
     width: min(94vw, 82vh);
-    touch-action: pan-y;
+    touch-action: pan-y pinch-zoom;   /* allow 2-finger pinch-zoom to read fine detail; 1-finger horizontal still flips */
+    visibility: hidden;   /* shown on init to avoid FOUC of stacked page divs */
   }
-  /* On wide screens, allow the two-page spread to use more width */
   @media (min-aspect-ratio: 13/10) and (min-width: 900px) {
     #book { width: min(92vw, 168vh); }
   }
-  #book .page { background: #fff; }
-  #book .page img { width: 100%; height: 100%; display: block; object-fit: contain; background:#fff; }
+  /* HTML render mode: each page is a real <img>, rendered at device-native resolution (sharp on high-DPR phones) */
+  #book .page { background:#fff; overflow:hidden; }
+  #book .page picture, #book .page img { width:100%; height:100%; display:block; }
+  #book .page img { object-fit:contain; background:#fff; image-rendering:auto; }
+  #book .page[data-density="hard"] { background:#fff; }
 
-  /* top bar */
   #topbar {
     position: fixed; top: 0; left: 0; right: 0; height: 46px;
     display: flex; align-items: center; justify-content: space-between;
@@ -44,7 +44,6 @@
   #title { font-weight: 600; color: var(--fg); letter-spacing: .02em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   #counter { font-variant-numeric: tabular-nums; white-space: nowrap; }
 
-  /* nav arrows */
   .nav {
     position: fixed; top: 50%; transform: translateY(-50%);
     width: 52px; height: 52px; border-radius: 50%;
@@ -59,7 +58,6 @@
   .nav[disabled] { opacity: .25; pointer-events: none; }
   #prev { left: 12px; } #next { right: 12px; }
 
-  /* bottom hint + jump */
   #hint {
     position: fixed; bottom: max(env(safe-area-inset-bottom), 12px); left: 50%;
     transform: translateX(-50%); font-size: 12px; color: var(--muted);
@@ -97,7 +95,6 @@
     var PAGE_PARAM = "page";
     var bookEl = document.getElementById("book");
     var loader = document.getElementById("loader");
-    var loadtxt = document.getElementById("loadtxt");
     var counter = document.getElementById("counter");
     var hint = document.getElementById("hint");
     var prevBtn = document.getElementById("prev");
@@ -108,29 +105,46 @@
 
     function getStartPage(total) {
       var p = new URLSearchParams(location.search).get(PAGE_PARAM);
-      // also support hash form #page=N as a fallback
       if (!p && location.hash) { var m = location.hash.match(/page=(\d+)/); if (m) p = m[1]; }
       var n = parseInt(p, 10);
-      if (isNaN(n)) return 0;            // default: cover
+      if (isNaN(n)) return 0;
       if (n < 1) n = 1; if (n > total) n = total;
-      return n - 1;                       // 0-based index
+      return n - 1;
     }
 
     fetch("manifest.json", { cache: "no-cache" })
       .then(function (r) { if (!r.ok) throw new Error("manifest " + r.status); return r.json(); })
       .then(function (manifest) {
-        var imgs = manifest.pages.map(function (p) { return p.jpg; }); // JPG = universal across all browsers/webviews
-        var total = imgs.length;
+        var pages = manifest.pages;
+        var total = pages.length;
         var startPage = getStartPage(total);
 
+        // Build real DOM <img> pages -> HTML render mode keeps device-native sharpness (no canvas downsampling).
+        pages.forEach(function (p, idx) {
+          var div = document.createElement("div");
+          div.className = "page";
+          if (idx === 0 || idx === total - 1) div.setAttribute("data-density", "hard"); // stiff cover & back
+          var pic = document.createElement("picture");
+          var src = document.createElement("source");
+          src.type = "image/webp"; src.srcset = p.webp;
+          var img = document.createElement("img");
+          img.src = p.jpg;                 // universal fallback; <source> serves webp where supported
+          img.alt = "page " + p.i;
+          img.decoding = "async";
+          img.draggable = false;
+          pic.appendChild(src); pic.appendChild(img);
+          div.appendChild(pic);
+          bookEl.appendChild(div);
+        });
+
         var pageFlip = new St.PageFlip(bookEl, {
-          width: 600, height: 600,            // square design ratio
+          width: 600, height: 600,
           size: "stretch",
-          minWidth: 280, maxWidth: 1400,
-          minHeight: 280, maxHeight: 1400,
+          minWidth: 280, maxWidth: 2000,
+          minHeight: 280, maxHeight: 2000,
           drawShadow: true,
           flippingTime: 650,
-          usePortrait: true,                  // single page on narrow screens
+          usePortrait: true,
           startPage: startPage,
           autoSize: true,
           maxShadowOpacity: 0.5,
@@ -141,31 +155,13 @@
           useMouseEvents: true
         });
 
-        // Preload images so we can show real progress, then hand the URLs to StPageFlip.
-        var loaded = 0;
-        imgs.forEach(function (src) {
-          var im = new Image();
-          im.onload = im.onerror = function () {
-            loaded++; loadtxt.textContent = "載入中… " + loaded + " / " + total;
-            if (loaded === total) start();
-          };
-          im.src = src;
-        });
-
-        var started = false;
-        function start() {
-          if (started) return; started = true;
-          pageFlip.loadFromImages(imgs);
-        }
-        // safety: if some image stalls, start anyway after 8s
-        setTimeout(start, 8000);
+        pageFlip.loadFromHTML(bookEl.querySelectorAll(".page"));
 
         function updateUI() {
-          var idx = pageFlip.getCurrentPageIndex();      // 0-based (left page of spread)
+          var idx = pageFlip.getCurrentPageIndex();
           counter.textContent = (idx + 1) + " / " + total;
           prevBtn.disabled = idx <= 0;
           nextBtn.disabled = idx >= total - 1;
-          // reflect current page in the URL (no reload) so refresh/share keeps the spot
           var url = new URL(location.href);
           url.searchParams.set(PAGE_PARAM, idx + 1);
           url.hash = "";
@@ -173,8 +169,8 @@
         }
 
         pageFlip.on("init", function () {
+          bookEl.style.visibility = "visible";
           loader.style.display = "none";
-          // ensure we actually landed on the deep-linked page
           if (startPage > 0 && pageFlip.getCurrentPageIndex() !== startPage) {
             try { pageFlip.turnToPage(startPage); } catch (e) {}
           }
@@ -189,8 +185,10 @@
           if (e.key === "ArrowLeft") pageFlip.flipPrev();
           else if (e.key === "ArrowRight") pageFlip.flipNext();
         });
-        // keep square fit correct on rotation/resize
         window.addEventListener("resize", function () { try { pageFlip.update(); } catch (e) {} });
+
+        // safety: reveal anyway if 'init' does not fire
+        setTimeout(function () { if (loader.style.display !== "none") { bookEl.style.visibility = "visible"; loader.style.display = "none"; } }, 9000);
       })
       .catch(function (e) { fail("無法載入電子書：" + e.message); });
   })();
