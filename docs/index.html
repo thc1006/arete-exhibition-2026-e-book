@@ -272,7 +272,8 @@
 
     function startReading(){ if(splashDone) return; splashDone=true;
       if(!ready){ startBtn.textContent="載入中…請稍候"; splashLoad.textContent="載入中…請稍候"; }
-      enterImmersive().finally(dismissSplash);   // if not ready yet, splash stays (with loader) until onInit fires
+      dismissSplash();   // reveal the book immediately when ready -- NEVER gated behind fullscreen
+      try{ enterImmersive(); }catch(e){}   // fire-and-forget: fullscreen / orientation lock must never block or hide the book
     }
     splash.addEventListener("click",startReading);
 
