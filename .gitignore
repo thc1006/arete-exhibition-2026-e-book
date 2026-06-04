@@ -10,6 +10,9 @@ build/sheet_M*.png
 /test-*.jpeg
 /test-*.png
 
+# --- Local Claude Code config (keep local, never publish to remote) ---
+.claude/
+
 # --- OS cruft ---
 Thumbs.db
 .DS_Store
