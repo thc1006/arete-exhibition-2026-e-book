@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
+<meta name="theme-color" content="#111111">
+<link rel="icon" href="data:,">
+<title>ANTI-AUTOBIOGRAPHY 反自傳 — AH Student Exhibition 2026</title>
+<meta name="description" content="反自傳 ANTI-AUTOBIOGRAPHY — 學位展作品集電子書">
+<meta property="og:title" content="ANTI-AUTOBIOGRAPHY 反自傳">
+<meta property="og:type" content="website">
+<style>
+  :root { --bg:#111; --fg:#f4f4f2; --muted:#9a9a96; --accent:#d9543f; }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body {
+    margin: 0; height: 100%; background: var(--bg); color: var(--fg);
+    font-family: -apple-system, "Helvetica Neue", "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+    overscroll-behavior: none; overflow: hidden;
+  }
+  #stage {
+    position: fixed; inset: 0; display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  }
+  #book {
+    /* a square that always fits inside the viewport (leaving room for chrome) */
+    width: min(94vw, 82vh);
+    touch-action: pan-y;
+  }
+  /* On wide screens, allow the two-page spread to use more width */
+  @media (min-aspect-ratio: 13/10) and (min-width: 900px) {
+    #book { width: min(92vw, 168vh); }
+  }
+  #book .page { background: #fff; }
+  #book .page img { width: 100%; height: 100%; display: block; object-fit: contain; background:#fff; }
+
+  /* top bar */
+  #topbar {
+    position: fixed; top: 0; left: 0; right: 0; height: 46px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: max(env(safe-area-inset-top), 8px) 14px 0; gap: 10px;
+    font-size: 13px; color: var(--muted); pointer-events: none; z-index: 30;
+  }
+  #title { font-weight: 600; color: var(--fg); letter-spacing: .02em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  #counter { font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+  /* nav arrows */
+  .nav {
+    position: fixed; top: 50%; transform: translateY(-50%);
+    width: 52px; height: 52px; border-radius: 50%;
+    background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.14);
+    color: var(--fg); font-size: 22px; line-height: 1; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; z-index: 30;
+    backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+    transition: opacity .2s, background .2s; user-select: none;
+  }
+  .nav:hover { background: rgba(255,255,255,.16); }
+  .nav:active { transform: translateY(-50%) scale(.92); }
+  .nav[disabled] { opacity: .25; pointer-events: none; }
+  #prev { left: 12px; } #next { right: 12px; }
+
+  /* bottom hint + jump */
+  #hint {
+    position: fixed; bottom: max(env(safe-area-inset-bottom), 12px); left: 50%;
+    transform: translateX(-50%); font-size: 12px; color: var(--muted);
+    background: rgba(0,0,0,.35); padding: 6px 12px; border-radius: 999px;
+    z-index: 30; transition: opacity .6s; white-space: nowrap;
+  }
+  #loader {
+    position: fixed; inset: 0; display: flex; align-items: center; justify-content: center;
+    background: var(--bg); z-index: 50; color: var(--muted); font-size: 14px; gap: 12px; flex-direction: column;
+  }
+  .spin { width: 30px; height: 30px; border: 3px solid rgba(255,255,255,.18); border-top-color: var(--accent); border-radius: 50%; animation: s 1s linear infinite; }
+  @keyframes s { to { transform: rotate(360deg); } }
+  #err { position: fixed; inset: 0; display:none; align-items:center; justify-content:center; padding:24px; text-align:center; color:var(--muted); z-index:60; }
+</style>
+</head>
+<body>
+  <div id="topbar">
+    <span id="title">反自傳 ANTI-AUTOBIOGRAPHY</span>
+    <span id="counter">—</span>
+  </div>
+
+  <div id="stage"><div id="book"></div></div>
+
+  <button class="nav" id="prev" aria-label="上一頁">&#8249;</button>
+  <button class="nav" id="next" aria-label="下一頁">&#8250;</button>
+
+  <div id="hint">左右滑動或點擊翻頁</div>
+  <div id="loader"><div class="spin"></div><div id="loadtxt">載入中…</div></div>
+  <div id="err"></div>
+
+  <script src="assets/page-flip.browser.js"></script>
+  <script>
+  (function () {
+    "use strict";
+    var PAGE_PARAM = "page";
+    var bookEl = document.getElementById("book");
+    var loader = document.getElementById("loader");
+    var loadtxt = document.getElementById("loadtxt");
+    var counter = document.getElementById("counter");
+    var hint = document.getElementById("hint");
+    var prevBtn = document.getElementById("prev");
+    var nextBtn = document.getElementById("next");
+    var errEl = document.getElementById("err");
+
+    function fail(msg) { errEl.style.display = "flex"; errEl.textContent = msg; loader.style.display = "none"; }
+
+    function getStartPage(total) {
+      var p = new URLSearchParams(location.search).get(PAGE_PARAM);
+      // also support hash form #page=N as a fallback
+      if (!p && location.hash) { var m = location.hash.match(/page=(\d+)/); if (m) p = m[1]; }
+      var n = parseInt(p, 10);
+      if (isNaN(n)) return 0;            // default: cover
+      if (n < 1) n = 1; if (n > total) n = total;
+      return n - 1;                       // 0-based index
+    }
+
+    fetch("manifest.json", { cache: "no-cache" })
+      .then(function (r) { if (!r.ok) throw new Error("manifest " + r.status); return r.json(); })
+      .then(function (manifest) {
+        var imgs = manifest.pages.map(function (p) { return p.jpg; }); // JPG = universal across all browsers/webviews
+        var total = imgs.length;
+        var startPage = getStartPage(total);
+
+        var pageFlip = new St.PageFlip(bookEl, {
+          width: 600, height: 600,            // square design ratio
+          size: "stretch",
+          minWidth: 280, maxWidth: 1400,
+          minHeight: 280, maxHeight: 1400,
+          drawShadow: true,
+          flippingTime: 650,
+          usePortrait: true,                  // single page on narrow screens
+          startPage: startPage,
+          autoSize: true,
+          maxShadowOpacity: 0.5,
+          showCover: true,
+          mobileScrollSupport: false,
+          swipeDistance: 25,
+          showPageCorners: true,
+          useMouseEvents: true
+        });
+
+        // Preload images so we can show real progress, then hand the URLs to StPageFlip.
+        var loaded = 0;
+        imgs.forEach(function (src) {
+          var im = new Image();
+          im.onload = im.onerror = function () {
+            loaded++; loadtxt.textContent = "載入中… " + loaded + " / " + total;
+            if (loaded === total) start();
+          };
+          im.src = src;
+        });
+
+        var started = false;
+        function start() {
+          if (started) return; started = true;
+          pageFlip.loadFromImages(imgs);
+        }
+        // safety: if some image stalls, start anyway after 8s
+        setTimeout(start, 8000);
+
+        function updateUI() {
+          var idx = pageFlip.getCurrentPageIndex();      // 0-based (left page of spread)
+          counter.textContent = (idx + 1) + " / " + total;
+          prevBtn.disabled = idx <= 0;
+          nextBtn.disabled = idx >= total - 1;
+          // reflect current page in the URL (no reload) so refresh/share keeps the spot
+          var url = new URL(location.href);
+          url.searchParams.set(PAGE_PARAM, idx + 1);
+          url.hash = "";
+          history.replaceState(null, "", url.toString());
+        }
+
+        pageFlip.on("init", function () {
+          loader.style.display = "none";
+          // ensure we actually landed on the deep-linked page
+          if (startPage > 0 && pageFlip.getCurrentPageIndex() !== startPage) {
+            try { pageFlip.turnToPage(startPage); } catch (e) {}
+          }
+          updateUI();
+          setTimeout(function () { hint.style.opacity = "0"; }, 3500);
+        });
+        pageFlip.on("flip", updateUI);
+
+        prevBtn.addEventListener("click", function () { pageFlip.flipPrev(); });
+        nextBtn.addEventListener("click", function () { pageFlip.flipNext(); });
+        document.addEventListener("keydown", function (e) {
+          if (e.key === "ArrowLeft") pageFlip.flipPrev();
+          else if (e.key === "ArrowRight") pageFlip.flipNext();
+        });
+        // keep square fit correct on rotation/resize
+        window.addEventListener("resize", function () { try { pageFlip.update(); } catch (e) {} });
+      })
+      .catch(function (e) { fail("無法載入電子書：" + e.message); });
+  })();
+  </script>
+</body>
+</html>

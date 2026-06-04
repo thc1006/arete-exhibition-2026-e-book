@@ -1,0 +1,36 @@
+{
+  "_note": "Canonical work->page table. page = global 1-based page in the flipbook (blanks kept). folio = catalog printed folio (page-10 for the main book). Verified by adversarial review + full per-page read. Source of truth for QR generation.",
+  "sheets": [
+    { "id": "B", "page": 1,  "role": "cover",  "label": "封面 ARTS…DEGREE? (ㄅ 單面塑膠片)" },
+    { "id": "P", "page": 2,  "role": "insert", "label": "插頁作品 (ㄆ 正面)" },
+    { "id": "F", "page": 65, "role": "back",   "label": "封底 AH Student Exhibition (ㄈ 背面)" }
+  ],
+  "works": [
+    { "n": 1,  "page": 13, "folio": "03", "artist": "天貝芽玖", "alias": "天芽 / Meg A.", "titleZh": "焚而不解", "titleEn": "", "shared": false },
+    { "n": 2,  "page": 15, "folio": "05", "artist": "尤俗晴", "alias": "尤時晴 / Sunny Yo", "titleZh": "我們的", "titleEn": "OURS", "shared": false },
+    { "n": 3,  "page": 17, "folio": "07", "artist": "王鈺晴、張郡育", "alias": "Sunny Wang & Jimmy Chang", "titleZh": "", "titleEn": "belongings", "shared": false },
+    { "n": 4,  "page": 19, "folio": "09", "artist": "江詠竣", "alias": "Louis Chiang", "titleZh": "缺如春夢綿綿", "titleEn": "", "shared": true },
+    { "n": 5,  "page": 19, "folio": "09", "artist": "江詠竣", "alias": "Louis Chiang", "titleZh": "小怪獸的過動", "titleEn": "", "shared": true },
+    { "n": 6,  "page": 21, "folio": "11", "artist": "吳沁霖", "alias": "TJ Wu", "titleZh": "", "titleEn": "My Head Is A Room", "shared": false },
+    { "n": 7,  "page": 23, "folio": "13", "artist": "汪其珈", "alias": "汪汪", "titleZh": "水的批改", "titleEn": "Water's Revision", "shared": false },
+    { "n": 8,  "page": 25, "folio": "15", "artist": "余佳紜", "alias": "CDYu", "titleZh": "", "titleEn": "Gymnasion", "shared": false },
+    { "n": 9,  "page": 27, "folio": "17", "artist": "李宥廷", "alias": "PP", "titleZh": "", "titleEn": "BB", "shared": true },
+    { "n": 10, "page": 27, "folio": "17", "artist": "李宥廷、蔡秉叡", "alias": "PP & Ray Tsai", "titleZh": "BB（合作件）", "titleEn": "BB (collaborative)", "shared": true },
+    { "n": 11, "page": 29, "folio": "19", "artist": "李恩、陳姮予、陳俐璇", "alias": "Julie, Melody & Chrystel", "titleZh": "麻辣P寶", "titleEn": "", "shared": false },
+    { "n": 12, "page": 31, "folio": "21", "artist": "林以嵐", "alias": "Lîm í-lâm", "titleZh": "青盲牛", "titleEn": "an illiterate", "shared": false },
+    { "n": 13, "page": 33, "folio": "23", "artist": "林以嵐", "alias": "Lîm í-lâm", "titleZh": "謝謝你我很好不要再問了 e04", "titleEn": "Thank you i am fine stop asking jeez", "shared": false },
+    { "n": 14, "page": 35, "folio": "25", "artist": "林以嵐", "alias": "Lîm í-lâm", "titleZh": "自我懸置", "titleEn": "self-epoché", "shared": false },
+    { "n": 15, "page": 37, "folio": "27", "artist": "林彤恩", "alias": "林吞吞", "titleZh": "模樣", "titleEn": "", "shared": false },
+    { "n": 16, "page": 39, "folio": "29", "artist": "夏之心", "alias": "Summer Hsia", "titleZh": "翻滾吧!林薯泥", "titleEn": "Well Done, Potato", "shared": false },
+    { "n": 17, "page": 41, "folio": "31", "artist": "許詔輔、錢昀", "alias": "Haiiro & cywhitebear", "titleZh": "", "titleEn": "Dreamscape", "shared": false },
+    { "n": 18, "page": 43, "folio": "33", "artist": "黃暘", "alias": "Huang Young", "titleZh": "黃暘官方網站", "titleEn": "Official Website of Huang Young", "shared": true },
+    { "n": 19, "page": 43, "folio": "33", "artist": "黃暘", "alias": "Huang Young", "titleZh": "我是一坨狗屎", "titleEn": "I Am a Piece of Shit", "shared": true },
+    { "n": 20, "page": 45, "folio": "35", "artist": "黃暘", "alias": "Huang Young", "titleZh": "讀日記", "titleEn": "Reading Diary Aloud", "shared": false },
+    { "n": 21, "page": 47, "folio": "37", "artist": "陳大森", "alias": "Morris Chen", "titleZh": "小象", "titleEn": "Little Elephant", "shared": false },
+    { "n": 22, "page": 49, "folio": "39", "artist": "陳以荷", "alias": "Yi He", "titleZh": "慣習", "titleEn": "", "shared": false },
+    { "n": 23, "page": 51, "folio": "41", "artist": "蔡潔希", "alias": "Jlexi Tsai", "titleZh": "", "titleEn": "vulnerability", "shared": false },
+    { "n": 24, "page": 53, "folio": "43", "artist": "蔡宜叡", "alias": "Ray Tsai", "titleZh": "", "titleEn": "Anti Audio/Visual", "shared": false },
+    { "n": 25, "page": 55, "folio": "45", "artist": "賴柏蓁", "alias": "百米", "titleZh": "夢境配送中", "titleEn": "", "shared": false },
+    { "n": 26, "page": 57, "folio": "47", "artist": "顏睿軍", "alias": "Innovation Balloon", "titleZh": "琥珀中的幻獸", "titleEn": "Phantom in Amber", "shared": false }
+  ]
+}

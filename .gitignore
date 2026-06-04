@@ -1,0 +1,16 @@
+# --- Source PDFs: too large for git (GitHub rejects files >100MB; these are 100-150MB each) ---
+*.pdf
+
+# --- Build intermediates / large preview images (regenerable by build/render.py) ---
+build/contact_sheet.png
+build/sheet_M*.png
+
+# --- Local test artifacts ---
+.playwright-mcp/
+/test-*.jpeg
+/test-*.png
+
+# --- OS cruft ---
+Thumbs.db
+.DS_Store
+desktop.ini
