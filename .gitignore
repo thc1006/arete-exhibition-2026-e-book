@@ -20,3 +20,6 @@ desktop.ini
 
 # --- Local audit/temp scripts (never publish) ---
 build/_*.py
+
+# user-provided source reference image (cover uses high-res ㄆ instead)
+/peach.png
