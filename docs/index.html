@@ -3,202 +3,299 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#111111">
+<meta name="theme-color" content="#0e0e0e">
 <link rel="icon" href="data:,">
 <title>ANTI-AUTOBIOGRAPHY 反自傳 — AH Student Exhibition 2026</title>
-<meta name="description" content="反自傳 ANTI-AUTOBIOGRAPHY — 學位展作品集電子書">
+<meta name="description" content="反自傳 ANTI-AUTOBIOGRAPHY — 學位展作品集電子書，20 位藝術家的可翻閱數位作品集。">
 <meta property="og:title" content="ANTI-AUTOBIOGRAPHY 反自傳">
+<meta property="og:description" content="學位展作品集電子書 — 可翻閱、可深連到單一作品。">
 <meta property="og:type" content="website">
 <style>
-  :root { --bg:#111; --fg:#f4f4f2; --muted:#9a9a96; --accent:#d9543f; }
-  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-  html, body {
-    margin: 0; height: 100%; background: var(--bg); color: var(--fg);
-    font-family: -apple-system, "Helvetica Neue", "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
-    overscroll-behavior: none; overflow: hidden;
+  :root{
+    --bg:#0e0e0e; --fg:#f5f4f1; --muted:#9b9b96; --accent:#d9543f; --line:rgba(255,255,255,.12);
+    --chrome:rgba(18,18,18,.72); --flip-ms:600ms;
+    --topbar:50px; --bottombar:92px;
   }
-  #stage {
-    position: fixed; inset: 0; display: flex; align-items: center; justify-content: center;
-    padding-top: max(env(safe-area-inset-top), 8px);
-    padding-right: env(safe-area-inset-right);
-    padding-left: env(safe-area-inset-left);
-    /* reserve a bottom band so the centered page never sits under the bottom nav buttons */
-    padding-bottom: calc(max(env(safe-area-inset-bottom), 12px) + 76px);
-  }
-  #book {
-    width: min(94vw, 82vh);
-    touch-action: pan-y pinch-zoom;   /* allow 2-finger pinch-zoom to read fine detail; 1-finger horizontal still flips */
-    visibility: hidden;   /* shown on init to avoid FOUC of stacked page divs */
-  }
-  @media (min-aspect-ratio: 13/10) and (min-width: 900px) {
-    #book { width: min(92vw, 168vh); }
-  }
-  /* HTML render mode: each page is a real <img>, rendered at device-native resolution (sharp on high-DPR phones) */
-  #book .page { background:#fff; overflow:hidden; }
-  #book .page picture, #book .page img { width:100%; height:100%; display:block; }
-  #book .page img { object-fit:contain; background:#fff; image-rendering:auto; }
-  #book .page[data-density="hard"] { background:#fff; }
+  @media (prefers-reduced-motion: reduce){ :root{ --flip-ms:0ms; } }
+  *{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  html,body{ margin:0; height:100%; background:var(--bg); color:var(--fg);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Helvetica Neue","PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif;
+    overscroll-behavior:none; overflow:hidden; }
+  button{ font:inherit; color:inherit; background:none; border:0; cursor:pointer; }
 
-  #topbar {
-    position: fixed; top: 0; left: 0; right: 0; height: 46px;
-    display: flex; align-items: center; justify-content: space-between;
-    padding: max(env(safe-area-inset-top), 8px) 14px 0; gap: 10px;
-    font-size: 13px; color: var(--muted); pointer-events: none; z-index: 30;
-  }
-  #title { font-weight: 600; color: var(--fg); letter-spacing: .02em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  #counter { font-variant-numeric: tabular-nums; white-space: nowrap; }
+  /* ---------- stage / book ---------- */
+  #stage{ position:fixed; inset:0; display:flex; align-items:center; justify-content:center;
+    padding:
+      calc(var(--topbar) + env(safe-area-inset-top))
+      calc(12px + env(safe-area-inset-right))
+      calc(var(--bottombar) + env(safe-area-inset-bottom))
+      calc(12px + env(safe-area-inset-left)); }
+  #book{ touch-action:pan-y pinch-zoom; }   /* page size is set in JS to always fit */
+  #book .page{ background:#fff; overflow:hidden; }
+  #book .page picture,#book .page img{ width:100%; height:100%; display:block; }
+  #book .page img{ object-fit:contain; background:#fff; }
 
-  .nav {
-    position: fixed;
-    width: 52px; height: 52px; border-radius: 50%;
-    background: rgba(255,255,255,.10); border: 1px solid rgba(255,255,255,.16);
-    color: var(--fg); font-size: 22px; line-height: 1; cursor: pointer;
-    display: flex; align-items: center; justify-content: center; z-index: 30;
-    backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
-    transition: opacity .2s, background .2s, transform .1s; user-select: none;
-  }
-  .nav:hover { background: rgba(255,255,255,.18); }
-  .nav:active { transform: scale(.92); }
-  .nav[disabled] { opacity: .22; pointer-events: none; }
-  /* StPageFlip always stretches to fill the width (single page in portrait, two-page spread in
-     landscape), so there is never a usable side gutter -> arrows always go in the reserved bottom
-     band (see #stage padding-bottom), which never overlaps content in any orientation. */
-  #prev, #next { bottom: max(env(safe-area-inset-bottom), 22px); }
-  #prev { left: 22px; } #next { right: 22px; }
+  /* ---------- top bar ---------- */
+  #topbar{ position:fixed; top:0; left:0; right:0; height:calc(var(--topbar) + env(safe-area-inset-top));
+    padding:env(safe-area-inset-top) 8px 0; display:flex; align-items:center; gap:8px; z-index:40;
+    background:linear-gradient(to bottom,rgba(0,0,0,.55),rgba(0,0,0,0)); }
+  .bar-btn{ display:inline-flex; align-items:center; gap:6px; height:36px; padding:0 12px; border-radius:999px;
+    font-size:13px; color:var(--fg); background:rgba(255,255,255,.08); border:1px solid var(--line);
+    backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); white-space:nowrap; }
+  .bar-btn:hover{ background:rgba(255,255,255,.16); }
+  .bar-btn:active{ transform:scale(.95); }
+  #title{ flex:1; min-width:0; text-align:center; font-size:13px; font-weight:600; letter-spacing:.02em;
+    color:var(--fg); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; opacity:.92; }
+  #counter{ font-variant-numeric:tabular-nums; font-size:12px; color:var(--muted); min-width:54px; text-align:right; }
 
-  #hint {
-    position: fixed; bottom: max(env(safe-area-inset-bottom), 12px); left: 50%;
-    transform: translateX(-50%); font-size: 12px; color: var(--muted);
-    background: rgba(0,0,0,.35); padding: 6px 12px; border-radius: 999px;
-    z-index: 30; transition: opacity .6s; white-space: nowrap;
-  }
-  #loader {
-    position: fixed; inset: 0; display: flex; align-items: center; justify-content: center;
-    background: var(--bg); z-index: 50; color: var(--muted); font-size: 14px; gap: 12px; flex-direction: column;
-  }
-  .spin { width: 30px; height: 30px; border: 3px solid rgba(255,255,255,.18); border-top-color: var(--accent); border-radius: 50%; animation: s 1s linear infinite; }
-  @keyframes s { to { transform: rotate(360deg); } }
-  #err { position: fixed; inset: 0; display:none; align-items:center; justify-content:center; padding:24px; text-align:center; color:var(--muted); z-index:60; }
+  /* ---------- nav arrows (always in the reserved bottom band) ---------- */
+  .nav{ position:fixed; bottom:calc(28px + env(safe-area-inset-bottom)); width:52px; height:52px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center; font-size:24px; line-height:1; z-index:40;
+    color:var(--fg); background:rgba(255,255,255,.10); border:1px solid var(--line);
+    backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); transition:opacity .2s,background .2s,transform .1s; }
+  .nav:hover{ background:rgba(255,255,255,.18); }
+  .nav:active{ transform:scale(.92); }
+  .nav[disabled]{ opacity:.22; pointer-events:none; }
+  #prev{ left:18px; } #next{ right:18px; }
+
+  /* ---------- progress bar ---------- */
+  #progress{ position:fixed; left:0; right:0; bottom:calc(env(safe-area-inset-bottom)); height:3px;
+    background:rgba(255,255,255,.10); z-index:40; }
+  #progressFill{ height:100%; width:0; background:var(--accent); transition:width .25s ease; }
+
+  /* ---------- table of contents drawer ---------- */
+  #scrim{ position:fixed; inset:0; background:rgba(0,0,0,.5); opacity:0; visibility:hidden; transition:opacity .25s; z-index:50; }
+  #scrim.open{ opacity:1; visibility:visible; }
+  #drawer{ position:fixed; top:0; bottom:0; left:0; width:min(86vw,360px); z-index:60;
+    background:#161616; border-right:1px solid var(--line); transform:translateX(-102%); transition:transform .28s cubic-bezier(.4,0,.2,1);
+    display:flex; flex-direction:column; padding-top:env(safe-area-inset-top); }
+  #drawer.open{ transform:none; }
+  #drawer header{ display:flex; align-items:center; justify-content:space-between; padding:16px 16px 10px; border-bottom:1px solid var(--line); }
+  #drawer header b{ font-size:15px; letter-spacing:.04em; }
+  #drawer header span{ font-size:11px; color:var(--muted); display:block; margin-top:2px; }
+  #closeDrawer{ width:34px; height:34px; border-radius:50%; font-size:18px; color:var(--muted); }
+  #closeDrawer:hover{ background:rgba(255,255,255,.1); color:var(--fg); }
+  #tocList{ list-style:none; margin:0; padding:8px 0 calc(20px + env(safe-area-inset-bottom)); overflow-y:auto; -webkit-overflow-scrolling:touch; }
+  .toc-group{ font-size:11px; letter-spacing:.08em; color:var(--muted); padding:14px 16px 4px; text-transform:uppercase; }
+  .toc-item{ display:flex; align-items:baseline; gap:10px; width:100%; text-align:left; padding:10px 16px; border-left:3px solid transparent; }
+  .toc-item:hover{ background:rgba(255,255,255,.06); }
+  .toc-item.current{ border-left-color:var(--accent); background:rgba(217,84,63,.10); }
+  .toc-item .t{ flex:1; min-width:0; font-size:14px; line-height:1.3; }
+  .toc-item .t small{ display:block; color:var(--muted); font-size:11px; margin-top:2px; }
+  .toc-item .pg{ font-size:11px; color:var(--muted); font-variant-numeric:tabular-nums; }
+
+  /* ---------- hint / toast / loader / error ---------- */
+  #hint{ position:fixed; bottom:calc(34px + env(safe-area-inset-bottom)); left:50%; transform:translateX(-50%);
+    font-size:12px; color:var(--muted); background:rgba(0,0,0,.4); padding:6px 14px; border-radius:999px; z-index:35;
+    transition:opacity .6s; white-space:nowrap; pointer-events:none; }
+  #toast{ position:fixed; bottom:calc(96px + env(safe-area-inset-bottom)); left:50%; transform:translateX(-50%) translateY(8px);
+    font-size:13px; color:var(--fg); background:rgba(40,40,40,.95); border:1px solid var(--line); padding:8px 16px; border-radius:999px;
+    z-index:70; opacity:0; transition:opacity .25s,transform .25s; pointer-events:none; }
+  #toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
+  #loader{ position:fixed; inset:0; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:16px;
+    background:var(--bg); z-index:80; color:var(--muted); }
+  #loader .brand{ font-size:15px; letter-spacing:.12em; color:var(--fg); opacity:.9; }
+  .spin{ width:30px; height:30px; border:3px solid rgba(255,255,255,.16); border-top-color:var(--accent); border-radius:50%; animation:s 1s linear infinite; }
+  @keyframes s{ to{ transform:rotate(360deg); } }
+  #loadtxt{ font-size:12px; font-variant-numeric:tabular-nums; }
+  #err{ position:fixed; inset:0; display:none; align-items:center; justify-content:center; text-align:center; padding:24px; color:var(--muted); z-index:90; }
 </style>
 </head>
 <body>
-  <div id="topbar">
+  <header id="topbar">
+    <button class="bar-btn" id="menuBtn" aria-label="目錄" aria-haspopup="true">&#9776;<span>目錄</span></button>
     <span id="title">反自傳 ANTI-AUTOBIOGRAPHY</span>
-    <span id="counter">—</span>
-  </div>
+    <button class="bar-btn" id="shareBtn" aria-label="分享此頁">分享</button>
+    <span id="counter" aria-live="polite">—</span>
+  </header>
 
-  <div id="stage"><div id="book"></div></div>
+  <main id="stage"><div id="book" aria-label="作品集翻頁電子書"></div></main>
 
   <button class="nav" id="prev" aria-label="上一頁">&#8249;</button>
   <button class="nav" id="next" aria-label="下一頁">&#8250;</button>
+  <div id="progress" aria-hidden="true"><div id="progressFill"></div></div>
 
-  <div id="hint">左右滑動或點擊翻頁</div>
-  <div id="loader"><div class="spin"></div><div id="loadtxt">載入中…</div></div>
+  <div id="scrim"></div>
+  <aside id="drawer" aria-label="作品目錄" role="dialog" aria-modal="true">
+    <header><div><b>目錄 Contents</b><span>點選作品即可直接翻到該頁</span></div><button id="closeDrawer" aria-label="關閉目錄">&#10005;</button></header>
+    <ul id="tocList"></ul>
+  </aside>
+
+  <div id="hint">左右滑動・點兩側翻頁・雙指放大</div>
+  <div id="toast"></div>
+  <div id="loader"><div class="brand">反自傳 ANTI-AUTOBIOGRAPHY</div><div class="spin"></div><div id="loadtxt">載入中…</div></div>
   <div id="err"></div>
 
   <script src="assets/page-flip.browser.js"></script>
   <script>
-  (function () {
+  (function(){
     "use strict";
-    var PAGE_PARAM = "page";
-    var bookEl = document.getElementById("book");
-    var loader = document.getElementById("loader");
-    var counter = document.getElementById("counter");
-    var hint = document.getElementById("hint");
-    var prevBtn = document.getElementById("prev");
-    var nextBtn = document.getElementById("next");
-    var errEl = document.getElementById("err");
+    var PARAM="page";
+    var $=function(id){return document.getElementById(id);};
+    var bookEl=$("book"), loader=$("loader"), loadtxt=$("loadtxt"), counter=$("counter"),
+        hint=$("hint"), prevBtn=$("prev"), nextBtn=$("next"), errEl=$("err"),
+        progressFill=$("progressFill"), drawer=$("drawer"), scrim=$("scrim"),
+        menuBtn=$("menuBtn"), closeDrawerBtn=$("closeDrawer"), shareBtn=$("shareBtn"),
+        tocList=$("tocList"), toastEl=$("toast");
+    var pageFlip=null, PAGES=[], TOTAL=0, started=false, reduceMotion=matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    function fail(msg) { errEl.style.display = "flex"; errEl.textContent = msg; loader.style.display = "none"; }
+    function fail(m){ errEl.style.display="flex"; errEl.textContent=m; loader.style.display="none"; }
+    function clampStart(total){
+      var p=new URLSearchParams(location.search).get(PARAM);
+      if(!p && location.hash){ var m=location.hash.match(/page=(\d+)/); if(m) p=m[1]; }
+      var n=parseInt(p,10); if(isNaN(n)) return 0; if(n<1)n=1; if(n>total)n=total; return n-1;
+    }
+    function toast(msg){ toastEl.textContent=msg; toastEl.classList.add("show"); clearTimeout(toast._t); toast._t=setTimeout(function(){toastEl.classList.remove("show");},1800); }
 
-    function getStartPage(total) {
-      var p = new URLSearchParams(location.search).get(PAGE_PARAM);
-      if (!p && location.hash) { var m = location.hash.match(/page=(\d+)/); if (m) p = m[1]; }
-      var n = parseInt(p, 10);
-      if (isNaN(n)) return 0;
-      if (n < 1) n = 1; if (n > total) n = total;
-      return n - 1;
+    // ---- layout: compute a page size that ALWAYS fits; single vs two-page spread ----
+    function layout(){
+      var topbar=parseInt(getComputedStyle(document.documentElement).getPropertyValue("--topbar"))||50;
+      var bottombar=parseInt(getComputedStyle(document.documentElement).getPropertyValue("--bottombar"))||92;
+      var availW=Math.max(220, window.innerWidth - 24);
+      var availH=Math.max(220, window.innerHeight - topbar - bottombar);
+      var dbl=window.innerWidth>=980;                       // spread only on wide screens
+      var size=dbl ? Math.min(Math.floor(availW/2), availH) : Math.min(availW, availH);
+      size=Math.max(180, Math.floor(size));
+      return { dbl:dbl, size:size };
     }
 
-    fetch("manifest.json", { cache: "no-cache" })
-      .then(function (r) { if (!r.ok) throw new Error("manifest " + r.status); return r.json(); })
-      .then(function (manifest) {
-        var pages = manifest.pages;
-        var total = pages.length;
-        var startPage = getStartPage(total);
+    function buildChildren(){
+      bookEl.innerHTML="";
+      PAGES.forEach(function(p,idx){
+        var div=document.createElement("div"); div.className="page";
+        if(idx===0||idx===TOTAL-1) div.setAttribute("data-density","hard");
+        var pic=document.createElement("picture");
+        var src=document.createElement("source"); src.type="image/webp"; src.srcset=p.webp;
+        var img=document.createElement("img"); img.src=p.jpg; img.alt="第 "+p.i+" 頁"; img.decoding="async"; img.draggable=false;
+        pic.appendChild(src); pic.appendChild(img); div.appendChild(pic); bookEl.appendChild(div);
+      });
+    }
 
-        // Build real DOM <img> pages -> HTML render mode keeps device-native sharpness (no canvas downsampling).
-        pages.forEach(function (p, idx) {
-          var div = document.createElement("div");
-          div.className = "page";
-          if (idx === 0 || idx === total - 1) div.setAttribute("data-density", "hard"); // stiff cover & back
-          var pic = document.createElement("picture");
-          var src = document.createElement("source");
-          src.type = "image/webp"; src.srcset = p.webp;
-          var img = document.createElement("img");
-          img.src = p.jpg;                 // universal fallback; <source> serves webp where supported
-          img.alt = "page " + p.i;
-          img.decoding = "async";
-          img.draggable = false;
-          pic.appendChild(src); pic.appendChild(img);
-          div.appendChild(pic);
-          bookEl.appendChild(div);
-        });
+    function makeFlip(startIdx){
+      var L=layout();
+      bookEl.style.width=(L.dbl?L.size*2:L.size)+"px";
+      bookEl.style.height=L.size+"px";
+      pageFlip=new St.PageFlip(bookEl,{
+        width:L.size, height:L.size, size:"fixed",
+        minWidth:180, maxWidth:3000, minHeight:180, maxHeight:3000,
+        drawShadow:true, flippingTime:reduceMotion?0:600, usePortrait:!L.dbl,
+        startPage:startIdx, autoSize:false, maxShadowOpacity:.5,
+        showCover:true, mobileScrollSupport:false, swipeDistance:24, showPageCorners:true, useMouseEvents:true
+      });
+      pageFlip.loadFromHTML(bookEl.querySelectorAll(".page"));
+      pageFlip.on("init",onInit);
+      pageFlip.on("flip",updateUI);
+    }
 
-        var pageFlip = new St.PageFlip(bookEl, {
-          width: 600, height: 600,
-          size: "stretch",
-          minWidth: 280, maxWidth: 2000,
-          minHeight: 280, maxHeight: 2000,
-          drawShadow: true,
-          flippingTime: 650,
-          usePortrait: true,
-          startPage: startPage,
-          autoSize: true,
-          maxShadowOpacity: 0.5,
-          showCover: true,
-          mobileScrollSupport: false,
-          swipeDistance: 25,
-          showPageCorners: true,
-          useMouseEvents: true
-        });
+    function onInit(){
+      bookEl.style.visibility="visible";
+      loader.style.display="none";
+      updateUI();
+      setTimeout(function(){ hint.style.opacity="0"; },4000);
+    }
 
-        pageFlip.loadFromHTML(bookEl.querySelectorAll(".page"));
+    function curPage(){ return (pageFlip?pageFlip.getCurrentPageIndex():0)+1; }
+    function updateUI(){
+      var idx=pageFlip?pageFlip.getCurrentPageIndex():0;
+      counter.textContent=(idx+1)+" / "+TOTAL;
+      prevBtn.disabled=idx<=0; nextBtn.disabled=idx>=TOTAL-1;
+      progressFill.style.width=((idx+1)/TOTAL*100)+"%";
+      var url=new URL(location.href); url.searchParams.set(PARAM,idx+1); url.hash=""; history.replaceState(null,"",url.toString());
+      highlightToc(idx+1);
+    }
 
-        function updateUI() {
-          var idx = pageFlip.getCurrentPageIndex();
-          counter.textContent = (idx + 1) + " / " + total;
-          prevBtn.disabled = idx <= 0;
-          nextBtn.disabled = idx >= total - 1;
-          var url = new URL(location.href);
-          url.searchParams.set(PAGE_PARAM, idx + 1);
-          url.hash = "";
-          history.replaceState(null, "", url.toString());
-        }
+    function goTo(page1){ if(!pageFlip) return; var i=Math.max(0,Math.min(TOTAL-1,page1-1)); try{ pageFlip.turnToPage(i); }catch(e){} updateUI(); }
 
-        pageFlip.on("init", function () {
-          bookEl.style.visibility = "visible";
-          loader.style.display = "none";
-          if (startPage > 0 && pageFlip.getCurrentPageIndex() !== startPage) {
-            try { pageFlip.turnToPage(startPage); } catch (e) {}
-          }
-          updateUI();
-          setTimeout(function () { hint.style.opacity = "0"; }, 3500);
-        });
-        pageFlip.on("flip", updateUI);
+    // ---- table of contents ----
+    var tocEntries=[];
+    function buildToc(manifest){
+      var sheets=manifest.sheets||[], anchors=manifest.anchors||[];
+      var list=[];
+      sheets.forEach(function(s){
+        var lbl=s.role==="cover"?"封面 Cover":s.role==="back"?"封底 Back":"插頁 Insert";
+        list.push({page:s.page, main:lbl, sub:"", group:s.role==="back"?"後記":"封面 / 插頁"});
+      });
+      anchors.forEach(function(a){
+        var t=(a.titleZh||a.titleEn||"").trim();
+        list.push({page:a.page, main:a.artist, sub:t+(a.titleEn&&a.titleZh?(" · "+a.titleEn):""), group:"作品 Artworks"});
+      });
+      list.sort(function(x,y){return x.page-y.page;});
+      tocEntries=list;
+      var html="", lastGroup="";
+      list.forEach(function(e){
+        if(e.group!==lastGroup){ html+='<li class="toc-group">'+esc(e.group)+'</li>'; lastGroup=e.group; }
+        html+='<li><button class="toc-item" data-page="'+e.page+'"><span class="t">'+esc(e.main)+
+              (e.sub?'<small>'+esc(e.sub)+'</small>':'')+'</span><span class="pg">'+e.page+'</span></button></li>';
+      });
+      tocList.innerHTML=html;
+      Array.prototype.forEach.call(tocList.querySelectorAll(".toc-item"),function(btn){
+        btn.addEventListener("click",function(){ goTo(parseInt(btn.getAttribute("data-page"),10)); closeDrawer(); });
+      });
+    }
+    function highlightToc(page1){
+      var best=null;
+      tocEntries.forEach(function(e){ if(e.page<=page1 && (!best||e.page>best)) best=e.page; });
+      Array.prototype.forEach.call(tocList.querySelectorAll(".toc-item"),function(btn){
+        btn.classList.toggle("current", parseInt(btn.getAttribute("data-page"),10)===best);
+      });
+    }
+    function esc(s){ return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];}); }
 
-        prevBtn.addEventListener("click", function () { pageFlip.flipPrev(); });
-        nextBtn.addEventListener("click", function () { pageFlip.flipNext(); });
-        document.addEventListener("keydown", function (e) {
-          if (e.key === "ArrowLeft") pageFlip.flipPrev();
-          else if (e.key === "ArrowRight") pageFlip.flipNext();
-        });
-        window.addEventListener("resize", function () { try { pageFlip.update(); } catch (e) {} });
+    function openDrawer(){ drawer.classList.add("open"); scrim.classList.add("open");
+      var c=tocList.querySelector(".toc-item.current"); if(c) c.scrollIntoView({block:"center"}); }
+    function closeDrawer(){ drawer.classList.remove("open"); scrim.classList.remove("open"); }
 
-        // safety: reveal anyway if 'init' does not fire
-        setTimeout(function () { if (loader.style.display !== "none") { bookEl.style.visibility = "visible"; loader.style.display = "none"; } }, 9000);
+    async function share(){
+      var url=location.href, title=document.title;
+      if(navigator.share){ try{ await navigator.share({title:title,url:url}); return; }catch(e){ if(e&&e.name==="AbortError") return; } }
+      try{ await navigator.clipboard.writeText(url); toast("已複製此頁連結"); }
+      catch(e){ window.prompt("複製此頁連結：", url); }
+    }
+
+    // ---- resize: rebuild only when layout meaningfully changes ----
+    var lastSig="";
+    function onResize(){
+      var L=layout(); var sig=L.dbl+":"+L.size;
+      if(sig===lastSig) return; lastSig=sig;
+      if(!pageFlip){ return; }
+      var cur=pageFlip.getCurrentPageIndex();
+      try{ pageFlip.destroy(); }catch(e){}
+      buildChildren(); makeFlip(cur);
+    }
+    var rzT; window.addEventListener("resize",function(){ clearTimeout(rzT); rzT=setTimeout(onResize,220); });
+    window.addEventListener("orientationchange",function(){ clearTimeout(rzT); rzT=setTimeout(onResize,300); });
+
+    // ---- wire controls ----
+    prevBtn.addEventListener("click",function(){ if(pageFlip) pageFlip.flipPrev(); });
+    nextBtn.addEventListener("click",function(){ if(pageFlip) pageFlip.flipNext(); });
+    menuBtn.addEventListener("click",openDrawer);
+    closeDrawerBtn.addEventListener("click",closeDrawer);
+    scrim.addEventListener("click",closeDrawer);
+    shareBtn.addEventListener("click",share);
+    document.addEventListener("keydown",function(e){
+      if(e.key==="Escape"){ closeDrawer(); return; }
+      if(!pageFlip) return;
+      if(e.key==="ArrowLeft") pageFlip.flipPrev();
+      else if(e.key==="ArrowRight") pageFlip.flipNext();
+      else if(e.key==="Home") goTo(1);
+      else if(e.key==="End") goTo(TOTAL);
+    });
+
+    // ---- boot ----
+    fetch("manifest.json",{cache:"no-cache"})
+      .then(function(r){ if(!r.ok) throw new Error("manifest "+r.status); return r.json(); })
+      .then(function(manifest){
+        PAGES=manifest.pages; TOTAL=PAGES.length;
+        if(manifest.title) document.getElementById("title").textContent=manifest.title;
+        buildToc(manifest);
+        var startIdx=clampStart(TOTAL);
+        // preload for a smooth first flip + progress feedback
+        var loaded=0;
+        PAGES.forEach(function(p){ var im=new Image(); im.onload=im.onerror=function(){ loaded++; loadtxt.textContent="載入中… "+loaded+" / "+TOTAL; if(loaded===TOTAL) start(); }; im.src=p.webp; });
+        function start(){ if(started) return; started=true; buildChildren(); lastSig=(layout().dbl)+":"+(layout().size); makeFlip(startIdx); }
+        setTimeout(start, 8000);  // safety: don't wait forever on a stalled image
       })
-      .catch(function (e) { fail("無法載入電子書：" + e.message); });
+      .catch(function(e){ fail("無法載入電子書："+e.message); });
   })();
   </script>
 </body>
