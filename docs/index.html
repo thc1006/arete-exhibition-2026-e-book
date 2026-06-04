@@ -16,11 +16,8 @@
 <meta property="og:description" content="學位展作品集電子書 — 可翻閱、可深連到單一作品。">
 <meta property="og:type" content="website">
 <style>
-  :root{
-    --bg:#0e0e0e; --fg:#f5f4f1; --muted:#9b9b96; --accent:#d9543f; --line:rgba(255,255,255,.12);
-    --topbar:50px; --bottombar:92px;
-  }
-  @media (prefers-reduced-motion: reduce){ *{ animation-duration:.001ms!important; } }
+  :root{ --bg:#0e0e0e; --fg:#f5f4f1; --muted:#9b9b96; --accent:#d9543f; --line:rgba(255,255,255,.12); --topbar:50px; --bottombar:92px; }
+  @media (prefers-reduced-motion: reduce){ *{ animation-duration:.001ms!important; transition-duration:.001ms!important; } }
   *{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
   html,body{ margin:0; height:100%; background:var(--bg); color:var(--fg);
     font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Helvetica Neue","PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif;
@@ -28,35 +25,28 @@
   button{ font:inherit; color:inherit; background:none; border:0; cursor:pointer; }
 
   #stage{ position:fixed; inset:0; display:flex; align-items:center; justify-content:center;
-    padding:
-      calc(var(--topbar) + env(safe-area-inset-top))
-      calc(12px + env(safe-area-inset-right))
-      calc(var(--bottombar) + env(safe-area-inset-bottom))
-      calc(12px + env(safe-area-inset-left)); }
+    padding:calc(var(--topbar) + env(safe-area-inset-top)) calc(12px + env(safe-area-inset-right)) calc(var(--bottombar) + env(safe-area-inset-bottom)) calc(12px + env(safe-area-inset-left)); }
   #book{ touch-action:pan-y pinch-zoom; visibility:hidden; }
   #book .page{ background:#fff; overflow:hidden; }
   #book .page picture,#book .page img{ width:100%; height:100%; display:block; }
   #book .page img{ object-fit:contain; background:#fff; }
 
-  #topbar{ position:fixed; top:0; left:0; right:0; height:calc(var(--topbar) + env(safe-area-inset-top));
-    padding:env(safe-area-inset-top) 8px 0; display:flex; align-items:center; gap:8px; z-index:40;
-    background:linear-gradient(to bottom,rgba(0,0,0,.55),rgba(0,0,0,0)); }
-  .bar-btn{ display:inline-flex; align-items:center; gap:6px; height:36px; padding:0 12px; border-radius:999px;
-    font-size:13px; color:var(--fg); background:rgba(255,255,255,.08); border:1px solid var(--line);
-    backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); white-space:nowrap; }
+  #topbar{ position:fixed; top:0; left:0; right:0; height:calc(var(--topbar) + env(safe-area-inset-top)); padding:env(safe-area-inset-top) 8px 0;
+    display:flex; align-items:center; gap:8px; z-index:40; background:linear-gradient(to bottom,rgba(0,0,0,.55),rgba(0,0,0,0)); }
+  .bar-btn{ display:inline-flex; align-items:center; gap:6px; height:36px; padding:0 12px; border-radius:999px; font-size:13px; color:var(--fg);
+    background:rgba(255,255,255,.08); border:1px solid var(--line); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); white-space:nowrap; }
   .bar-btn:hover{ background:rgba(255,255,255,.16); } .bar-btn:active{ transform:scale(.95); }
   #title{ flex:1; min-width:0; text-align:center; font-size:13px; font-weight:600; letter-spacing:.02em; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; opacity:.92; }
   #counter{ font-variant-numeric:tabular-nums; font-size:12px; color:var(--muted); min-width:54px; text-align:right; }
 
-  .nav{ position:fixed; bottom:calc(28px + env(safe-area-inset-bottom)); width:52px; height:52px; border-radius:50%;
-    display:flex; align-items:center; justify-content:center; font-size:24px; line-height:1; z-index:40;
-    color:var(--fg); background:rgba(255,255,255,.10); border:1px solid var(--line);
+  .nav{ position:fixed; bottom:calc(28px + env(safe-area-inset-bottom)); width:52px; height:52px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+    font-size:24px; line-height:1; z-index:45; color:var(--fg); background:rgba(255,255,255,.10); border:1px solid var(--line);
     backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); transition:opacity .2s,background .2s,transform .1s; }
   .nav:hover{ background:rgba(255,255,255,.18); } .nav:active{ transform:scale(.92); }
   .nav[disabled]{ opacity:.22; pointer-events:none; }
   #prev{ left:18px; } #next{ right:18px; }
 
-  #progress{ position:fixed; left:0; right:0; bottom:calc(env(safe-area-inset-bottom)); height:3px; background:rgba(255,255,255,.10); z-index:40; }
+  #progress{ position:fixed; left:0; right:0; bottom:calc(env(safe-area-inset-bottom)); height:3px; background:rgba(255,255,255,.10); z-index:40; pointer-events:none; }
   #progressFill{ height:100%; width:0; background:var(--accent); transition:width .25s ease; }
 
   #scrim{ position:fixed; inset:0; background:rgba(0,0,0,.5); opacity:0; visibility:hidden; transition:opacity .25s; z-index:50; }
@@ -80,22 +70,23 @@
     background:rgba(40,40,40,.95); border:1px solid var(--line); padding:8px 16px; border-radius:999px; z-index:70; opacity:0; transition:opacity .25s,transform .25s; pointer-events:none; }
   #toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
 
-  /* ---------- tap-to-start splash ---------- */
-  #splash{ position:fixed; inset:0; z-index:100; background:#0e0e0e; display:flex; align-items:center; justify-content:center; overflow:hidden; transition:opacity .5s ease; }
+  /* tap-to-start cover splash with a GENUINE two-layer transparent overlay */
+  #splash{ position:fixed; inset:0; z-index:100; background:#0e0e0e; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:22px;
+    overflow:hidden; transition:opacity .5s ease; perspective:1800px; }
   #splash.gone{ opacity:0; pointer-events:none; }
-  #splashCover{ position:absolute; inset:0; width:100%; height:100%; object-fit:contain; opacity:.5; filter:saturate(.96); }
-  #splash::after{ content:""; position:absolute; inset:0; background:radial-gradient(ellipse at center,rgba(14,14,14,.35),rgba(14,14,14,.86)); }
-  #splashInner{ position:relative; z-index:1; text-align:center; padding:24px; }
-  #splashInner .brand{ font-size:clamp(22px,5vw,40px); font-weight:700; letter-spacing:.06em; color:#fff; }
-  #splashInner .brand .accent{ color:var(--accent); }
-  #splashInner .sub{ margin-top:8px; font-size:13px; letter-spacing:.18em; color:var(--muted); text-transform:uppercase; }
-  #startBtn{ margin-top:30px; padding:14px 30px; border-radius:999px; font-size:15px; color:#fff; background:rgba(217,84,63,.92); border:1px solid rgba(255,255,255,.25);
-    box-shadow:0 6px 24px rgba(0,0,0,.4); animation:pulse 2.4s ease-in-out infinite; }
+  #cover{ position:relative; width:min(80vw,58vh); aspect-ratio:1/1; transform-style:preserve-3d; }
+  #cover img{ position:absolute; inset:0; width:100%; height:100%; object-fit:contain; }
+  #cover .ctitle{ transform-origin:left center; transition:transform .8s cubic-bezier(.45,0,.2,1), opacity .8s; }
+  #splash.lifting .ctitle{ transform:rotateY(-130deg); opacity:0; }
+  #splash.lifting #splashInner{ opacity:0; transition:opacity .35s; }
+  #splashInner{ position:relative; z-index:1; text-align:center; }
+  #splashInner .sub{ font-size:12px; letter-spacing:.18em; color:var(--muted); text-transform:uppercase; }
+  #startBtn{ margin-top:14px; padding:14px 30px; border-radius:999px; font-size:15px; color:#fff; background:rgba(217,84,63,.95); border:1px solid rgba(255,255,255,.25);
+    box-shadow:0 6px 24px rgba(0,0,0,.45); animation:pulse 2.4s ease-in-out infinite; }
   #startBtn:active{ transform:scale(.96); }
   @keyframes pulse{ 0%,100%{ transform:translateY(0); opacity:1; } 50%{ transform:translateY(-3px); opacity:.92; } }
-  #splashLoad{ margin-top:16px; font-size:12px; color:var(--muted); font-variant-numeric:tabular-nums; min-height:16px; }
+  #splashLoad{ margin-top:12px; font-size:12px; color:var(--muted); font-variant-numeric:tabular-nums; min-height:16px; }
 
-  /* ---------- rotate-to-landscape prompt ---------- */
   #rotate{ position:fixed; inset:0; z-index:90; background:rgba(14,14,14,.97); display:none; align-items:center; justify-content:center; text-align:center; }
   #rotate.show{ display:flex; }
   #rotate .ph{ width:46px; height:78px; border:3px solid var(--fg); border-radius:9px; margin:0 auto 22px; animation:tip 1.8s ease-in-out infinite; }
@@ -126,22 +117,20 @@
     <ul id="tocList"></ul>
   </aside>
 
-  <div id="hint">左右滑動・點兩側翻頁・雙指放大</div>
+  <div id="hint">左右滑動，或點下方箭頭翻頁・雙指放大</div>
   <div id="toast"></div>
 
   <div id="rotate">
-    <div>
-      <div class="ph"></div>
-      <div class="msg">請將手機橫放以橫向閱覽<small>ROTATE YOUR DEVICE</small></div>
-      <button class="skip" id="rotateSkip">仍以直向閱覽</button>
-    </div>
+    <div><div class="ph"></div><div class="msg">請將手機橫放以橫向閱覽<small>ROTATE YOUR DEVICE</small></div><button class="skip" id="rotateSkip">仍以直向閱覽</button></div>
   </div>
 
   <div id="splash">
-    <img id="splashCover" src="pages/page-001.jpg" alt="封面">
+    <div id="cover">
+      <img class="cbase" src="assets/cover-base.jpg" alt="">
+      <img class="ctitle" src="assets/cover-title.png" alt="ANTI-AUTOBIOGRAPHY">
+    </div>
     <div id="splashInner">
-      <div class="brand"><span class="accent">ANTI-</span>AUTOBIOGRAPHY</div>
-      <div class="sub">反自傳 · AH Student Exhibition · 2026</div>
+      <div class="sub">反自傳 · AH STUDENT EXHIBITION · 2026</div>
       <button id="startBtn">輕觸開始閱覽</button>
       <div id="splashLoad">載入中…</div>
     </div>
@@ -158,8 +147,8 @@
     var bookEl=$("book"), counter=$("counter"), hint=$("hint"), prevBtn=$("prev"), nextBtn=$("next"), errEl=$("err"),
         progressFill=$("progressFill"), drawer=$("drawer"), scrim=$("scrim"), menuBtn=$("menuBtn"),
         closeDrawerBtn=$("closeDrawer"), shareBtn=$("shareBtn"), tocList=$("tocList"), toastEl=$("toast"),
-        splash=$("splash"), startBtn=$("startBtn"), splashLoad=$("splashLoad"), rotateEl=$("rotate"), rotateSkip=$("rotateSkip");
-    var pageFlip=null, PAGES=[], TOTAL=0, started=false, ready=false, splashDone=false, dismissedRotate=false,
+        splash=$("splash"), startBtn=$("startBtn"), splashLoad=$("splashLoad"), rotateEl=$("rotate"), rotateSkip=$("rotateSkip"), stage=$("stage");
+    var pageFlip=null, PAGES=[], TOTAL=0, started=false, ready=false, splashDone=false, lifted=false, dismissedRotate=false,
         reduceMotion=matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     function fail(m){ errEl.style.display="flex"; errEl.textContent=m; splash.classList.add("gone"); }
@@ -170,16 +159,22 @@
     }
     function toast(msg){ toastEl.textContent=msg; toastEl.classList.add("show"); clearTimeout(toast._t); toast._t=setTimeout(function(){toastEl.classList.remove("show");},1800); }
 
-    // ---- layout: page size always fits; landscape => two-page spread, portrait => single ----
     function layout(){
       var topbar=parseInt(getComputedStyle(document.documentElement).getPropertyValue("--topbar"))||50;
       var bottombar=parseInt(getComputedStyle(document.documentElement).getPropertyValue("--bottombar"))||92;
       var availW=window.innerWidth - 24;
-      var availH=window.innerHeight - topbar - bottombar;       // true content height (no inflated floor)
-      var dbl=window.innerWidth > window.innerHeight;           // landscape -> open-book spread
+      var availH=window.innerHeight - topbar - bottombar;
+      var dbl=window.innerWidth > window.innerHeight;            // landscape -> open-book spread
       var size=dbl ? Math.min(Math.floor(availW/2), availH) : Math.min(availW, availH);
-      size=Math.floor(size) - 2;                                // 2px slack so the page never touches the bars
-      return { dbl:dbl, size: Math.max(120, size) };            // 120 = sanity floor for tiny screens only
+      size=Math.floor(size) - 2;
+      return { dbl:dbl, size: Math.max(120, size) };
+    }
+
+    // StPageFlip.destroy() removes the #book element, so re-create a fresh one before each (re)build.
+    function freshBook(){
+      var old=$("book"); if(old){ try{ old.remove(); }catch(e){} }
+      bookEl=document.createElement("div"); bookEl.id="book"; bookEl.setAttribute("aria-label","作品集翻頁電子書");
+      stage.appendChild(bookEl);
     }
     function buildChildren(){
       bookEl.innerHTML="";
@@ -196,20 +191,20 @@
       var L=layout();
       bookEl.style.width=(L.dbl?L.size*2:L.size)+"px"; bookEl.style.height=L.size+"px";
       pageFlip=new St.PageFlip(bookEl,{
-        width:L.size, height:L.size, size:"fixed", minWidth:160, maxWidth:3000, minHeight:160, maxHeight:3000,
+        width:L.size, height:L.size, size:"fixed", minWidth:120, maxWidth:3000, minHeight:120, maxHeight:3000,
         drawShadow:true, flippingTime:reduceMotion?0:600, usePortrait:!L.dbl, startPage:startIdx, autoSize:false,
-        maxShadowOpacity:.5, showCover:true, mobileScrollSupport:false, swipeDistance:24, showPageCorners:true, useMouseEvents:true });
+        maxShadowOpacity:.5, showCover:true, mobileScrollSupport:false, swipeDistance:24, showPageCorners:false,
+        disableFlipByClick:true, useMouseEvents:true });   // disableFlipByClick: only arrows/swipe flip (no accidental click-to-flip)
       pageFlip.loadFromHTML(bookEl.querySelectorAll(".page"));
       pageFlip.on("init",onInit); pageFlip.on("flip",updateUI);
     }
     function onInit(){ ready=true; splashLoad.textContent="準備完成"; dismissSplash(); }
     function dismissSplash(){
-      if(!splashDone || !ready) return;          // reveal only once the user has tapped AND the book is ready (no blank gap)
+      if(!splashDone || !ready) return;
       splash.classList.add("gone"); setTimeout(function(){ splash.style.display="none"; },600);
       bookEl.style.visibility="visible"; updateUI(); syncRotate();
       setTimeout(function(){ hint.style.opacity="0"; },4000);
     }
-
     function updateUI(){
       var idx=pageFlip?pageFlip.getCurrentPageIndex():0;
       counter.textContent=(idx+1)+" / "+TOTAL;
@@ -220,7 +215,6 @@
     }
     function goTo(page1){ if(!pageFlip) return; var i=Math.max(0,Math.min(TOTAL-1,page1-1)); try{ pageFlip.turnToPage(i); }catch(e){} updateUI(); }
 
-    // ---- table of contents ----
     var tocEntries=[];
     function buildToc(manifest){
       var sheets=manifest.sheets||[], anchors=manifest.anchors||[], list=[];
@@ -245,39 +239,42 @@
       if(navigator.share){ try{ await navigator.share({title:title,url:url}); return; }catch(e){ if(e&&e.name==="AbortError") return; } }
       try{ await navigator.clipboard.writeText(url); toast("已複製此頁連結"); }catch(e){ window.prompt("複製此頁連結：", url); } }
 
-    // ---- immersive (fullscreen + orientation lock) ----
     async function enterImmersive(){
       var el=document.documentElement;
       try{ var rf=el.requestFullscreen||el.webkitRequestFullscreen||el.msRequestFullscreen; if(rf) await rf.call(el); }catch(e){}
       try{ if(screen.orientation&&screen.orientation.lock) await screen.orientation.lock("landscape"); }catch(e){}
     }
     function coarse(){ return matchMedia("(pointer:coarse)").matches; }
-    function portrait(){ return window.innerHeight>window.innerWidth; }
-    function syncRotate(){ rotateEl.classList.toggle("show", splashDone && !dismissedRotate && coarse() && portrait()); }
+    function portraitNow(){ return window.innerHeight>window.innerWidth; }
+    function syncRotate(){ rotateEl.classList.toggle("show", splashDone && !dismissedRotate && coarse() && portraitNow()); }
 
-    // ---- resize: rebuild only when layout meaningfully changes ----
     var lastSig="";
-    function onResize(){ var L=layout(); var sig=L.dbl+":"+L.size; syncRotate(); if(sig===lastSig||!pageFlip) return; lastSig=sig;
-      var cur=pageFlip.getCurrentPageIndex(); try{ pageFlip.destroy(); }catch(e){} buildChildren(); makeFlip(cur); if(splashDone) bookEl.style.visibility="visible"; }
-    var rzT; function deb(){ clearTimeout(rzT); rzT=setTimeout(onResize,220); }
-    window.addEventListener("resize",deb); window.addEventListener("orientationchange",function(){ clearTimeout(rzT); rzT=setTimeout(onResize,300); });
+    function onResize(){
+      var L=layout(); var sig=L.dbl+":"+L.size; syncRotate();
+      if(sig===lastSig || !pageFlip) return; lastSig=sig;
+      var cur=pageFlip.getCurrentPageIndex();
+      try{ pageFlip.destroy(); }catch(e){}
+      freshBook(); buildChildren(); makeFlip(cur);
+      if(splashDone) bookEl.style.visibility="visible";
+    }
+    var rzT; window.addEventListener("resize",function(){ clearTimeout(rzT); rzT=setTimeout(onResize,250); });
+    window.addEventListener("orientationchange",function(){ clearTimeout(rzT); rzT=setTimeout(onResize,350); });
 
-    // ---- controls ----
-    prevBtn.addEventListener("click",function(){ if(pageFlip) pageFlip.flipPrev(); });
-    nextBtn.addEventListener("click",function(){ if(pageFlip) pageFlip.flipNext(); });
+    prevBtn.addEventListener("click",function(e){ e.stopPropagation(); if(pageFlip) pageFlip.flipPrev(); });
+    nextBtn.addEventListener("click",function(e){ e.stopPropagation(); if(pageFlip) pageFlip.flipNext(); });
     menuBtn.addEventListener("click",openDrawer); closeDrawerBtn.addEventListener("click",closeDrawer); scrim.addEventListener("click",closeDrawer); shareBtn.addEventListener("click",share);
     rotateSkip.addEventListener("click",function(){ dismissedRotate=true; syncRotate(); });
     document.addEventListener("keydown",function(e){ if(e.key==="Escape"){ closeDrawer(); return; } if(!pageFlip) return;
       if(e.key==="ArrowLeft") pageFlip.flipPrev(); else if(e.key==="ArrowRight") pageFlip.flipNext(); else if(e.key==="Home") goTo(1); else if(e.key==="End") goTo(TOTAL); });
 
+    function beginLift(){ if(lifted) return; lifted=true; splash.classList.add("lifting"); setTimeout(dismissSplash, reduceMotion?60:720); }
     function startReading(){ if(splashDone) return; splashDone=true;
       if(!ready){ startBtn.textContent="載入中…請稍候"; splashLoad.textContent="載入中…請稍候"; }
-      dismissSplash();   // reveal the book immediately when ready -- NEVER gated behind fullscreen
-      try{ enterImmersive(); }catch(e){}   // fire-and-forget: fullscreen / orientation lock must never block or hide the book
+      try{ enterImmersive(); }catch(e){}     // fire-and-forget: must never block/hide the book
+      beginLift();
     }
     splash.addEventListener("click",startReading);
 
-    // ---- boot ----
     fetch("manifest.json",{cache:"no-cache"})
       .then(function(r){ if(!r.ok) throw new Error("manifest "+r.status); return r.json(); })
       .then(function(manifest){
