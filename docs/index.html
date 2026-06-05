@@ -41,15 +41,19 @@
 
   #stage{ position:fixed; inset:0; display:flex; align-items:center; justify-content:center;
     padding:calc(var(--topbar) + env(safe-area-inset-top)) calc(12px + env(safe-area-inset-right)) calc(var(--bottombar) + env(safe-area-inset-bottom)) calc(12px + env(safe-area-inset-left)); }
-  #book{ touch-action:pan-y pinch-zoom; visibility:hidden; }
+  #book{ touch-action:pan-y pinch-zoom; visibility:hidden; position:relative; z-index:1; }
+  /* peach backdrop that shows through the transparent ㄅ cover ONLY at rest on page 1; it represents
+     the page underneath, so flipping the ㄅ cover lifts it off and the peach (page 2) stays put */
+  #coverback{ position:absolute; z-index:0; display:none; pointer-events:none; background:center/contain no-repeat; background-image:url("assets/cover-base.jpg"); }
   #book .page{ background:#fff; overflow:hidden; }
   #book .page picture,#book .page img{ width:100%; height:100%; display:block; }
   #book .page img{ object-fit:contain; background:#fff; }
   /* StPageFlip sets inline touch-action:pan-y on its wrapper, which blocks two-finger zoom; re-allow pinch-zoom everywhere in the book (landscape spread included) while keeping 1-finger swipe for flipping */
   #book, #book .stf__wrapper, #book .stf__block, #book .stf__item, #book .page, #book canvas{ touch-action:pan-y pinch-zoom !important; }
-  /* page 1 = the transparent ㄅ plastic sheet laid over the peach artwork, so peach shows through it */
-  #book .page.cover-leaf{ background:#0e0e0e url("assets/cover-base.jpg") center/contain no-repeat !important; }
-  #book .page.cover-leaf img{ background:transparent !important; }
+  /* page 1 = the transparent ㄅ plastic sheet. Fully see-through (no white/peach baked in) so the
+     #coverback peach layer behind the book shows through it; flipping it lifts ONLY ㄅ off the peach. */
+  #book .page.cover-leaf, #book .page.cover-leaf img,
+  #book .page.cover-leaf picture, #book .page.cover-leaf .stf__item{ background:transparent !important; }
 
   #topbar{ position:fixed; top:0; left:0; right:0; height:calc(var(--topbar) + env(safe-area-inset-top)); padding:env(safe-area-inset-top) 8px 0;
     display:flex; align-items:center; gap:8px; z-index:40; background:linear-gradient(to bottom,rgba(0,0,0,.55),rgba(0,0,0,0)); }
@@ -125,7 +129,7 @@
     <span id="counter" aria-live="polite">—</span>
   </header>
 
-  <main id="stage"><div id="book" aria-label="作品集翻頁電子書"></div></main>
+  <main id="stage"><div id="coverback" aria-hidden="true"></div><div id="book" aria-label="作品集翻頁電子書"></div></main>
 
   <button class="nav" id="prev" aria-label="上一頁">&#8249;</button>
   <button class="nav" id="next" aria-label="下一頁">&#8250;</button>
@@ -233,8 +237,26 @@
       progressFill.style.width=((idx+1)/TOTAL*100)+"%";
       var url=new URL(location.href); url.searchParams.set(PARAM,idx+1); url.hash=""; history.replaceState(null,"",url.toString());
       highlightToc(idx+1);
+      syncCoverback();
+    }
+    // peach layer behind the book, shown only while resting on the transparent ㄅ cover (page 1),
+    // aligned to the book box. Lets ㄅ show peach through it; flipping ㄅ hides it and StPageFlip's own
+    // page 2 (peach) takes over -> ㄅ lifts off, peach stays.
+    function syncCoverback(){
+      var cb=$("coverback"); if(!cb) return;
+      if(pageFlip && splashDone && pageFlip.getCurrentPageIndex()===0){
+        var r=bookEl.getBoundingClientRect();
+        cb.style.left=r.left+"px"; cb.style.top=r.top+"px"; cb.style.width=r.width+"px"; cb.style.height=r.height+"px"; cb.style.display="block";
+      } else { cb.style.display="none"; }
     }
     function goTo(page1){ if(!pageFlip) return; var i=Math.max(0,Math.min(TOTAL-1,page1-1)); try{ pageFlip.turnToPage(i); }catch(e){} updateUI(); }
+    function flipFwd(){ if(pageFlip) pageFlip.flipNext(); }   // animated forward works in both orientations
+    // page-flip 2.0.7 bug: animated flipPrev() does nothing in PORTRAIT (single-page) mode, but works in
+    // LANDSCAPE (spread). Fall back to instant turnToPrevPage() in portrait so backward navigation always works.
+    function flipBack(){ if(!pageFlip) return;
+      if(window.innerWidth > window.innerHeight){ pageFlip.flipPrev(); }
+      else { try{ pageFlip.turnToPrevPage(); }catch(e){} updateUI(); }
+    }
 
     var tocEntries=[];
     function buildToc(manifest){
@@ -271,7 +293,7 @@
 
     var lastSig="";
     function onResize(){
-      var L=layout(); var sig=L.dbl+":"+L.size; syncRotate();
+      var L=layout(); var sig=L.dbl+":"+L.size; syncRotate(); syncCoverback();
       if(sig===lastSig || !pageFlip) return; lastSig=sig;
       var cur=pageFlip.getCurrentPageIndex();
       try{ pageFlip.destroy(); }catch(e){}
@@ -281,12 +303,12 @@
     var rzT; window.addEventListener("resize",function(){ clearTimeout(rzT); rzT=setTimeout(onResize,250); });
     window.addEventListener("orientationchange",function(){ clearTimeout(rzT); rzT=setTimeout(onResize,350); });
 
-    prevBtn.addEventListener("click",function(e){ e.stopPropagation(); if(pageFlip) pageFlip.flipPrev(); });
-    nextBtn.addEventListener("click",function(e){ e.stopPropagation(); if(pageFlip) pageFlip.flipNext(); });
+    prevBtn.addEventListener("click",function(e){ e.stopPropagation(); flipBack(); });
+    nextBtn.addEventListener("click",function(e){ e.stopPropagation(); flipFwd(); });
     menuBtn.addEventListener("click",openDrawer); closeDrawerBtn.addEventListener("click",closeDrawer); scrim.addEventListener("click",closeDrawer); shareBtn.addEventListener("click",share);
     rotateSkip.addEventListener("click",function(){ dismissedRotate=true; syncRotate(); });
     document.addEventListener("keydown",function(e){ if(e.key==="Escape"){ closeDrawer(); return; } if(!pageFlip) return;
-      if(e.key==="ArrowLeft") pageFlip.flipPrev(); else if(e.key==="ArrowRight") pageFlip.flipNext(); else if(e.key==="Home") goTo(1); else if(e.key==="End") goTo(TOTAL); });
+      if(e.key==="ArrowLeft") flipBack(); else if(e.key==="ArrowRight") flipFwd(); else if(e.key==="Home") goTo(1); else if(e.key==="End") goTo(TOTAL); });
 
     function startReading(){ if(splashDone) return; splashDone=true;
       if(!ready){ startBtn.textContent="載入中…請稍候"; splashLoad.textContent="載入中…請稍候"; }
