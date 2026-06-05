@@ -15,7 +15,7 @@
     },
     {
       "id": "F",
-      "page": 64,
+      "page": 65,
       "role": "back",
       "label": "封底 ㄈ AH Student Exhibition"
     }
@@ -23,7 +23,7 @@
   "works": [
     {
       "n": 1,
-      "page": 13,
+      "page": 14,
       "folio": "03",
       "artist": "天貝芽玖",
       "alias": "天芽 / Meg A.",
@@ -33,7 +33,7 @@
     },
     {
       "n": 2,
-      "page": 15,
+      "page": 16,
       "folio": "05",
       "artist": "尤俗晴",
       "alias": "尤時晴 / Sunny Yo",
@@ -43,7 +43,7 @@
     },
     {
       "n": 3,
-      "page": 17,
+      "page": 18,
       "folio": "07",
       "artist": "王鈺晴、張郡育",
       "alias": "Sunny Wang & Jimmy Chang",
@@ -53,7 +53,7 @@
     },
     {
       "n": 4,
-      "page": 19,
+      "page": 20,
       "folio": "09",
       "artist": "江詠竣",
       "alias": "Louis Chiang",
@@ -63,7 +63,7 @@
     },
     {
       "n": 5,
-      "page": 19,
+      "page": 20,
       "folio": "09",
       "artist": "江詠竣",
       "alias": "Louis Chiang",
@@ -73,7 +73,7 @@
     },
     {
       "n": 6,
-      "page": 21,
+      "page": 22,
       "folio": "11",
       "artist": "吳沁霖",
       "alias": "TJ Wu",
@@ -83,7 +83,7 @@
     },
     {
       "n": 7,
-      "page": 23,
+      "page": 24,
       "folio": "13",
       "artist": "汪其珈",
       "alias": "汪汪",
@@ -93,7 +93,7 @@
     },
     {
       "n": 8,
-      "page": 25,
+      "page": 26,
       "folio": "15",
       "artist": "余佳紜",
       "alias": "CDYu",
@@ -103,7 +103,7 @@
     },
     {
       "n": 9,
-      "page": 27,
+      "page": 28,
       "folio": "17",
       "artist": "李宥廷",
       "alias": "PP",
@@ -113,7 +113,7 @@
     },
     {
       "n": 10,
-      "page": 27,
+      "page": 28,
       "folio": "17",
       "artist": "李宥廷、蔡秉叡",
       "alias": "PP & Ray Tsai",
@@ -123,7 +123,7 @@
     },
     {
       "n": 11,
-      "page": 29,
+      "page": 30,
       "folio": "19",
       "artist": "李恩、陳姮予、陳俐璇",
       "alias": "Julie, Melody & Chrystel",
@@ -133,7 +133,7 @@
     },
     {
       "n": 12,
-      "page": 31,
+      "page": 32,
       "folio": "21",
       "artist": "林以嵐",
       "alias": "Lîm í-lâm",
@@ -143,7 +143,7 @@
     },
     {
       "n": 13,
-      "page": 33,
+      "page": 34,
       "folio": "23",
       "artist": "林以嵐",
       "alias": "Lîm í-lâm",
@@ -153,7 +153,7 @@
     },
     {
       "n": 14,
-      "page": 35,
+      "page": 36,
       "folio": "25",
       "artist": "林以嵐",
       "alias": "Lîm í-lâm",
@@ -163,7 +163,7 @@
     },
     {
       "n": 15,
-      "page": 37,
+      "page": 38,
       "folio": "27",
       "artist": "林彤恩",
       "alias": "林吞吞",
@@ -173,7 +173,7 @@
     },
     {
       "n": 16,
-      "page": 39,
+      "page": 40,
       "folio": "29",
       "artist": "夏之心",
       "alias": "Summer Hsia",
@@ -183,7 +183,7 @@
     },
     {
       "n": 17,
-      "page": 41,
+      "page": 42,
       "folio": "31",
       "artist": "許詔輔、錢昀",
       "alias": "Haiiro & cywhitebear",
@@ -193,7 +193,7 @@
     },
     {
       "n": 18,
-      "page": 43,
+      "page": 44,
       "folio": "33",
       "artist": "黃暘",
       "alias": "Huang Young",
@@ -203,7 +203,7 @@
     },
     {
       "n": 19,
-      "page": 43,
+      "page": 44,
       "folio": "33",
       "artist": "黃暘",
       "alias": "Huang Young",
@@ -213,7 +213,7 @@
     },
     {
       "n": 20,
-      "page": 45,
+      "page": 46,
       "folio": "35",
       "artist": "黃暘",
       "alias": "Huang Young",
@@ -223,7 +223,7 @@
     },
     {
       "n": 21,
-      "page": 47,
+      "page": 48,
       "folio": "37",
       "artist": "陳大森",
       "alias": "Morris Chen",
@@ -233,7 +233,7 @@
     },
     {
       "n": 22,
-      "page": 49,
+      "page": 50,
       "folio": "39",
       "artist": "陳以荷",
       "alias": "Yi He",
@@ -243,7 +243,7 @@
     },
     {
       "n": 23,
-      "page": 51,
+      "page": 52,
       "folio": "41",
       "artist": "蔡潔希",
       "alias": "Jlexi Tsai",
@@ -253,7 +253,7 @@
     },
     {
       "n": 24,
-      "page": 53,
+      "page": 54,
       "folio": "43",
       "artist": "蔡宜叡",
       "alias": "Ray Tsai",
@@ -263,7 +263,7 @@
     },
     {
       "n": 25,
-      "page": 55,
+      "page": 56,
       "folio": "45",
       "artist": "賴柏蓁",
       "alias": "百米",
@@ -273,7 +273,7 @@
     },
     {
       "n": 26,
-      "page": 57,
+      "page": 58,
       "folio": "47",
       "artist": "顏睿軍",
       "alias": "Innovation Balloon",
