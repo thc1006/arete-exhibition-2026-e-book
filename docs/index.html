@@ -52,8 +52,11 @@
   #book, #book .stf__wrapper, #book .stf__block, #book .stf__item, #book .page, #book canvas{ touch-action:pan-y pinch-zoom !important; }
   /* page 1 = the transparent ㄅ plastic sheet. Fully see-through (no white/peach baked in) so the
      #coverback peach layer behind the book shows through it; flipping it lifts ONLY ㄅ off the peach. */
-  #book .page.cover-leaf, #book .page.cover-leaf img,
-  #book .page.cover-leaf picture, #book .page.cover-leaf .stf__item{ background:transparent !important; }
+  /* Cover leaf = transparent ㄅ plastic sheet baked OVER peach in the page itself: peach is the page's own
+     background, the transparent ㄅ image sits on top. Always pixel-aligned in every orientation/spread with
+     no JS overlay; flipping it reveals page 2 (the same peach) so ㄅ lifts off and peach stays. */
+  #book .page.cover-leaf{ background:#0e0e0e url("pages/page-002.webp") center/contain no-repeat !important; }
+  #book .page.cover-leaf img, #book .page.cover-leaf picture{ background:transparent !important; }
 
   #topbar{ position:fixed; top:0; left:0; right:0; height:calc(var(--topbar) + env(safe-area-inset-top)); padding:env(safe-area-inset-top) 8px 0;
     display:flex; align-items:center; gap:8px; z-index:40; background:linear-gradient(to bottom,rgba(0,0,0,.55),rgba(0,0,0,0)); }
@@ -243,16 +246,9 @@
     // peach layer behind the book, shown only while resting on the transparent ㄅ cover (page 1),
     // aligned to the book box. Lets ㄅ show peach through it; flipping ㄅ hides it and StPageFlip's own
     // page 2 (peach) takes over -> ㄅ lifts off, peach stays.
-    function syncCoverback(){
-      var cb=$("coverback"); if(!cb) return;
-      if(pageFlip && splashDone && pageFlip.getCurrentPageIndex()===0){
-        // align to the ACTUAL cover-page box, not the whole book. In landscape the cover renders on the
-        // right half of the 2-page spread, so matching bookEl would centre the peach and offset it from ㄅ.
-        var coverPage=bookEl.querySelector(".page.cover-leaf");
-        var r=(coverPage||bookEl).getBoundingClientRect();
-        cb.style.left=r.left+"px"; cb.style.top=r.top+"px"; cb.style.width=r.width+"px"; cb.style.height=r.height+"px"; cb.style.display="block";
-      } else { cb.style.display="none"; }
-    }
+    // The peach now lives in the cover page's own background (.cover-leaf), so the fragile JS overlay is
+    // retired; just keep #coverback hidden.
+    function syncCoverback(){ var cb=$("coverback"); if(cb) cb.style.display="none"; }
     function goTo(page1){ if(!pageFlip) return; var i=Math.max(0,Math.min(TOTAL-1,page1-1)); try{ pageFlip.turnToPage(i); }catch(e){} updateUI(); }
     function flipFwd(){ if(pageFlip) pageFlip.flipNext(); }   // animated forward works in both orientations
     // page-flip 2.0.7 bug: animated flipPrev() does nothing in PORTRAIT (single-page) mode, but works in
