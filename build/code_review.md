@@ -9,7 +9,7 @@ the script (artwork-boundary judgement is done by a human reading the contact
 sheet output). Read-only on the source PDFs; writes only under site/ and build/.
 
 ## Review checklist
-- [PASS] Source order is explicit and documented (Bopomofo order ㄅ→ㄆ→ㄇ→ㄈ).
+- [PASS] Source order is explicit and documented (Bopomofo order ㄅ->ㄆ->ㄇ->ㄈ).
   Global page index `gidx` is 1-based and assigned strictly in iteration order,
   so the page<->source mapping is deterministic and auditable.
 - [PASS] Rendering uses `max(width,height)` for zoom -> safe for the square
