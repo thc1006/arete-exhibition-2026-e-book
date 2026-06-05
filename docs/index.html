@@ -246,7 +246,10 @@
     function syncCoverback(){
       var cb=$("coverback"); if(!cb) return;
       if(pageFlip && splashDone && pageFlip.getCurrentPageIndex()===0){
-        var r=bookEl.getBoundingClientRect();
+        // align to the ACTUAL cover-page box, not the whole book. In landscape the cover renders on the
+        // right half of the 2-page spread, so matching bookEl would centre the peach and offset it from ㄅ.
+        var coverPage=bookEl.querySelector(".page.cover-leaf");
+        var r=(coverPage||bookEl).getBoundingClientRect();
         cb.style.left=r.left+"px"; cb.style.top=r.top+"px"; cb.style.width=r.width+"px"; cb.style.height=r.height+"px"; cb.style.display="block";
       } else { cb.style.display="none"; }
     }
