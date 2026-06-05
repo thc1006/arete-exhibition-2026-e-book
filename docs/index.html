@@ -271,12 +271,12 @@
         cb.style.left=r.left+"px"; cb.style.top=r.top+"px"; cb.style.width=r.width+"px"; cb.style.height=r.height+"px"; cb.style.display="block";
       } else { cb.style.display="none"; }
     }
-    function goTo(page1){ if(!pageFlip) return; var i=Math.max(0,Math.min(TOTAL-1,page1-1)); try{ pageFlip.turnToPage(i); }catch(e){} updateUI(); }
-    function flipFwd(){ if(pageFlip) pageFlip.flipNext(); }   // animated forward works in both orientations
+    function goTo(page1){ if(!pageFlip) return; resetZoom(); var i=Math.max(0,Math.min(TOTAL-1,page1-1)); try{ pageFlip.turnToPage(i); }catch(e){} updateUI(); }
+    function flipFwd(){ if(!pageFlip) return; resetZoom(); pageFlip.flipNext(); }   // reset zoom first so the new page starts at 1x
     // page-flip 2.0.7 bug: animated flipPrev() does nothing in PORTRAIT (single-page) mode, but works in
     // LANDSCAPE (spread). Fall back to instant turnToPrevPage() in portrait so backward navigation always works.
     // Always single-page now, where page-flip 2.0.7's animated flipPrev() is a no-op; use instant prev.
-    function flipBack(){ if(!pageFlip) return;
+    function flipBack(){ if(!pageFlip) return; resetZoom();
       if(window.innerWidth > window.innerHeight){ pageFlip.flipPrev(); }   // landscape spread: animated flipPrev works
       else { try{ pageFlip.turnToPrevPage(); }catch(e){} updateUI(); }     // portrait single-page: flipPrev is a no-op
     }
