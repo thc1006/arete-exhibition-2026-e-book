@@ -204,7 +204,7 @@
       bookEl.innerHTML="";
       PAGES.forEach(function(p,idx){
         var div=document.createElement("div"); div.className="page";
-        if(idx<=3||idx===TOTAL-1) div.setAttribute("data-density","hard");   // ㄅ cover + ㄅ-left + peach + peach-back(blank) flip rigid like the plastic cover; ㄈ back cover too
+        if(idx<=3||idx>=TOTAL-2) div.setAttribute("data-density","hard");   // ㄅ sheet(cover+mirror-back) + ㄆ sheet(peach+blank) + ㄈ sheet(inside-blank+back cover) flip rigid; ㄇ catalog soft
         // page 1 = transparent ㄅ cover (peach shows through via #coverback when closed);
         // page 2 = the same transparent ㄅ as the LEFT of the first landscape spread (the flipped cover,
         // see-through to the dark stage), with peach (page 3) on the right.

@@ -1,7 +1,7 @@
 {
   "title": "ANTI-AUTOBIOGRAPHY 反自傳",
   "subtitle": "AH Student Exhibition 2026",
-  "totalPages": 65,
+  "totalPages": 66,
   "pageParam": "page",
   "pages": [
     {
@@ -13,9 +13,9 @@
     },
     {
       "i": 2,
-      "jpg": "pages/page-001.jpg",
-      "webp": "pages/page-001.webp",
-      "thumb": "thumbs/page-001.webp",
+      "jpg": "pages/page-001m.jpg",
+      "webp": "pages/page-001m.webp",
+      "thumb": "thumbs/page-001m.webp",
       "src": "B"
     },
     {
@@ -453,7 +453,14 @@
       "src": "M"
     },
     {
-      "i": 65,
+      "jpg": "pages/page-064.jpg",
+      "webp": "pages/page-064.webp",
+      "thumb": "thumbs/page-064.webp",
+      "src": "F",
+      "i": 65
+    },
+    {
+      "i": 66,
       "jpg": "pages/page-065.jpg",
       "webp": "pages/page-065.webp",
       "thumb": "thumbs/page-065.webp",
@@ -737,7 +744,7 @@
     },
     {
       "id": "F",
-      "page": 65,
+      "page": 66,
       "role": "back",
       "label": "封底 ㄈ AH Student Exhibition"
     }
