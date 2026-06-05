@@ -13,10 +13,10 @@
     },
     {
       "i": 2,
-      "jpg": "pages/page-002.jpg",
-      "webp": "pages/page-002.webp",
-      "thumb": "thumbs/page-002.webp",
-      "src": "P"
+      "jpg": "pages/page-001.jpg",
+      "webp": "pages/page-001.webp",
+      "thumb": "thumbs/page-001.webp",
+      "src": "B"
     },
     {
       "i": 3,
@@ -735,5 +735,5 @@
       "label": "封底 ㄈ AH Student Exhibition"
     }
   ],
-  "_note": " | peach is a 2-sided leaf (pages 2 & 3 both peach) so the post-cover landscape spread is a clean peach spread."
+  "_note": " | page2 = transparent ㄅ (the flipped cover, left of first landscape spread); page3 = peach (right)."
 }

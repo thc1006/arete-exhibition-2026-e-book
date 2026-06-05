@@ -205,7 +205,10 @@
       PAGES.forEach(function(p,idx){
         var div=document.createElement("div"); div.className="page";
         if(idx===0||idx===TOTAL-1) div.setAttribute("data-density","hard");
-        if(idx===0) div.classList.add("cover-leaf");   // transparent ㄅ over peach backdrop
+        // page 1 = transparent ㄅ cover (peach shows through via #coverback when closed);
+        // page 2 = the same transparent ㄅ as the LEFT of the first landscape spread (the flipped cover,
+        // see-through to the dark stage), with peach (page 3) on the right.
+        if(idx===0||idx===1) div.classList.add("cover-leaf");
         var pic=document.createElement("picture");
         var src=document.createElement("source"); src.type="image/webp"; src.srcset=p.webp;
         var img=document.createElement("img"); img.src=p.jpg; img.alt="第 "+p.i+" 頁"; img.decoding="async"; img.draggable=false;
