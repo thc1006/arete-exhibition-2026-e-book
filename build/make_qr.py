@@ -39,6 +39,9 @@ def main():
     data = json.loads((ROOT / "build" / "works.json").read_text(encoding="utf-8"))
 
     rows = []  # (stem, kind, label, sub, page, url)
+    # Whole-book QR: the landing page (no ?page) for the exhibition entrance / general signage.
+    gen("book-full", BASE)
+    rows.append(("book-full", "book", "整本書 Whole catalogue", "ANTI-AUTOBIOGRAPHY 反自傳 · landing", "首頁", BASE))
     for s in data["sheets"]:
         stem = f"sheet-{s['role']}_p{s['page']}"
         url = url_for(s["page"])
@@ -61,7 +64,7 @@ def main():
             wr.writerow([f"svg/{stem}.svg", kind, label, sub, page, url])
 
     build_guide(rows, QRDIR / "placement-guide.html")
-    print(f"generated {len(rows)} QR codes ({sum(r[1]=='work' for r in rows)} works + "
+    print(f"generated {len(rows)} QR codes (1 whole-book + {sum(r[1]=='work' for r in rows)} works + "
           f"{sum(r[1]=='sheet' for r in rows)} sheets) -> {QRDIR}")
 
 
