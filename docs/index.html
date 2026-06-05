@@ -218,8 +218,11 @@
         drawShadow:true, flippingTime:reduceMotion?0:600, usePortrait:!L.dbl, startPage:startIdx, autoSize:false,
         maxShadowOpacity:.5, showCover:true, mobileScrollSupport:false, swipeDistance:24, showPageCorners:false,
         disableFlipByClick:true, useMouseEvents:true });   // disableFlipByClick: only arrows/swipe flip (no accidental click-to-flip)
-      pageFlip.loadFromHTML(bookEl.querySelectorAll(".page"));
+      // Attach listeners BEFORE loadFromHTML: WebKit/Safari fires "init" SYNCHRONOUSLY during
+      // loadFromHTML, so listeners registered afterwards (as Chromium tolerated) are missed -> onInit
+      // never runs -> splash never dismisses & syncCoverback/updateUI never run on Safari/iPhone.
       pageFlip.on("init",onInit); pageFlip.on("flip",updateUI);
+      pageFlip.loadFromHTML(bookEl.querySelectorAll(".page"));
     }
     function onInit(){ ready=true; splashLoad.textContent="準備完成"; dismissSplash(); }
     function dismissSplash(){
