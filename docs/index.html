@@ -101,8 +101,6 @@
   #cover{ position:relative; width:min(80vw,58vh); aspect-ratio:1/1; transform-style:preserve-3d; }
   #cover img{ position:absolute; inset:0; width:100%; height:100%; object-fit:contain; }
   #cover .ctitle{ transform-origin:left center; transition:transform .8s cubic-bezier(.45,0,.2,1), opacity .8s; }
-  #splash.lifting .ctitle{ transform:rotateY(-130deg); opacity:0; }
-  #splash.lifting #splashInner{ opacity:0; transition:opacity .35s; }
   #splashInner{ position:relative; z-index:1; text-align:center; }
   #splashInner .sub{ font-size:12px; letter-spacing:.18em; color:var(--muted); text-transform:uppercase; }
   #startBtn{ margin-top:14px; padding:14px 30px; border-radius:999px; font-size:15px; color:#fff; background:rgba(217,84,63,.95); border:1px solid rgba(255,255,255,.25);
@@ -172,7 +170,7 @@
         progressFill=$("progressFill"), drawer=$("drawer"), scrim=$("scrim"), menuBtn=$("menuBtn"),
         closeDrawerBtn=$("closeDrawer"), shareBtn=$("shareBtn"), tocList=$("tocList"), toastEl=$("toast"),
         splash=$("splash"), startBtn=$("startBtn"), splashLoad=$("splashLoad"), rotateEl=$("rotate"), rotateSkip=$("rotateSkip"), stage=$("stage");
-    var pageFlip=null, PAGES=[], TOTAL=0, started=false, ready=false, splashDone=false, lifted=false, dismissedRotate=false,
+    var pageFlip=null, PAGES=[], TOTAL=0, started=false, ready=false, splashDone=false, dismissedRotate=false,
         reduceMotion=matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     function fail(m){ errEl.style.display="flex"; errEl.textContent=m; splash.classList.add("gone"); }
@@ -299,6 +297,7 @@
       try{ pageFlip.destroy(); }catch(e){}
       freshBook(); buildChildren(); makeFlip(cur);
       if(splashDone) bookEl.style.visibility="visible";
+      requestAnimationFrame(syncCoverback);   // re-align the peach cover backdrop to the rebuilt book element
     }
     var rzT; window.addEventListener("resize",function(){ clearTimeout(rzT); rzT=setTimeout(onResize,250); });
     window.addEventListener("orientationchange",function(){ clearTimeout(rzT); rzT=setTimeout(onResize,350); });
