@@ -186,10 +186,10 @@
       var bottombar=parseInt(getComputedStyle(document.documentElement).getPropertyValue("--bottombar"))||92;
       var availW=window.innerWidth - 24;
       var availH=window.innerHeight - topbar - bottombar;
-      var dbl=window.innerWidth > window.innerHeight;            // landscape -> open-book spread
-      var size=dbl ? Math.min(Math.floor(availW/2), availH) : Math.min(availW, availH);
-      size=Math.floor(size) - 2;
-      return { dbl:dbl, size: Math.max(120, size) };
+      // One page at a time in EVERY orientation: cover ㄅ -> peach -> next work, every page the same size,
+      // ㄅ stacked over peach when closed. (No 2-page spread, which split the cover onto the right half.)
+      var size=Math.floor(Math.min(availW, availH)) - 2;
+      return { dbl:false, size: Math.max(120, size) };
     }
 
     // StPageFlip.destroy() removes the #book element, so re-create a fresh one before each (re)build.
@@ -257,10 +257,8 @@
     function flipFwd(){ if(pageFlip) pageFlip.flipNext(); }   // animated forward works in both orientations
     // page-flip 2.0.7 bug: animated flipPrev() does nothing in PORTRAIT (single-page) mode, but works in
     // LANDSCAPE (spread). Fall back to instant turnToPrevPage() in portrait so backward navigation always works.
-    function flipBack(){ if(!pageFlip) return;
-      if(window.innerWidth > window.innerHeight){ pageFlip.flipPrev(); }
-      else { try{ pageFlip.turnToPrevPage(); }catch(e){} updateUI(); }
-    }
+    // Always single-page now, where page-flip 2.0.7's animated flipPrev() is a no-op; use instant prev.
+    function flipBack(){ if(!pageFlip) return; try{ pageFlip.turnToPrevPage(); }catch(e){} updateUI(); }
 
     var tocEntries=[];
     function buildToc(manifest){
@@ -293,7 +291,8 @@
     }
     function coarse(){ return matchMedia("(pointer:coarse)").matches; }
     function portraitNow(){ return window.innerHeight>window.innerWidth; }
-    function syncRotate(){ rotateEl.classList.toggle("show", splashDone && !dismissedRotate && coarse() && portraitNow()); }
+    // Square artworks shown one-per-page are largest in PORTRAIT, so we no longer nudge users to rotate.
+    function syncRotate(){ rotateEl.classList.remove("show"); }
 
     var lastSig="";
     function onResize(){
