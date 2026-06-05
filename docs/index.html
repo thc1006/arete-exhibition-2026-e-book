@@ -363,6 +363,7 @@
     function resetZoom(){ zS=1; zX=0; zY=0; zMode=null; if(bookEl) bookEl.style.transform=""; }
     document.addEventListener("touchstart",function(e){
       if(!splashDone) return;
+      if(!(e.target&&e.target.closest&&e.target.closest("#stage"))){ zMode=null; return; }   // only zoom/pan inside the book; leaves drawer/topbar/nav touches alone
       if(e.touches.length===2){ zMode="pinch"; pStartD=tdist(e.touches)||1; pStartS=zS; e.stopPropagation(); }
       else if(e.touches.length===1 && zS>1){ zMode="pan"; panX=e.touches[0].clientX; panY=e.touches[0].clientY; e.stopPropagation(); }
       else zMode=null;
