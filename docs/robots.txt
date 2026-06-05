@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://thc1006.github.io/arete-exhibition-2026-e-book/sitemap.xml

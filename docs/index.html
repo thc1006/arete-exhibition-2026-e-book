@@ -12,9 +12,24 @@
 <meta name="apple-mobile-web-app-title" content="反自傳">
 <title>ANTI-AUTOBIOGRAPHY 反自傳 — AH Student Exhibition 2026</title>
 <meta name="description" content="反自傳 ANTI-AUTOBIOGRAPHY — 學位展作品集電子書，20 位藝術家的可翻閱數位作品集。">
+<link rel="canonical" href="https://thc1006.github.io/arete-exhibition-2026-e-book/">
 <meta property="og:title" content="ANTI-AUTOBIOGRAPHY 反自傳">
-<meta property="og:description" content="學位展作品集電子書 — 可翻閱、可深連到單一作品。">
+<meta property="og:description" content="學位展作品集電子書 — 可翻閱、可深連到單一作品。20 位藝術家。">
 <meta property="og:type" content="website">
+<meta property="og:url" content="https://thc1006.github.io/arete-exhibition-2026-e-book/">
+<meta property="og:site_name" content="ANTI-AUTOBIOGRAPHY 反自傳">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://thc1006.github.io/arete-exhibition-2026-e-book/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="ANTI-AUTOBIOGRAPHY 反自傳 — AH Student Exhibition 2026">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="ANTI-AUTOBIOGRAPHY 反自傳">
+<meta name="twitter:description" content="學位展作品集電子書 — 可翻閱、可深連到單一作品。">
+<meta name="twitter:image" content="https://thc1006.github.io/arete-exhibition-2026-e-book/og-image.jpg">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"ExhibitionEvent","name":"ANTI-AUTOBIOGRAPHY 反自傳","description":"AH Student Exhibition 2026 — 學位展作品集電子書，20 位藝術家。","startDate":"2026","url":"https://thc1006.github.io/arete-exhibition-2026-e-book/","image":"https://thc1006.github.io/arete-exhibition-2026-e-book/og-image.jpg","organizer":{"@type":"Organization","name":"AH Student Exhibition"}}
+</script>
 <style>
   :root{ --bg:#0e0e0e; --fg:#f5f4f1; --muted:#9b9b96; --accent:#d9543f; --line:rgba(255,255,255,.12); --topbar:50px; --bottombar:92px; }
   @media (prefers-reduced-motion: reduce){ *{ animation-duration:.001ms!important; transition-duration:.001ms!important; } }
@@ -32,6 +47,9 @@
   #book .page img{ object-fit:contain; background:#fff; }
   /* StPageFlip sets inline touch-action:pan-y on its wrapper, which blocks two-finger zoom; re-allow pinch-zoom everywhere in the book (landscape spread included) while keeping 1-finger swipe for flipping */
   #book, #book .stf__wrapper, #book .stf__block, #book .stf__item, #book .page, #book canvas{ touch-action:pan-y pinch-zoom !important; }
+  /* page 1 = the transparent ㄅ plastic sheet laid over the peach artwork, so peach shows through it */
+  #book .page.cover-leaf{ background:#0e0e0e url("assets/cover-base.jpg") center/contain no-repeat !important; }
+  #book .page.cover-leaf img{ background:transparent !important; }
 
   #topbar{ position:fixed; top:0; left:0; right:0; height:calc(var(--topbar) + env(safe-area-inset-top)); padding:env(safe-area-inset-top) 8px 0;
     display:flex; align-items:center; gap:8px; z-index:40; background:linear-gradient(to bottom,rgba(0,0,0,.55),rgba(0,0,0,0)); }
@@ -183,6 +201,7 @@
       PAGES.forEach(function(p,idx){
         var div=document.createElement("div"); div.className="page";
         if(idx===0||idx===TOTAL-1) div.setAttribute("data-density","hard");
+        if(idx===0) div.classList.add("cover-leaf");   // transparent ㄅ over peach backdrop
         var pic=document.createElement("picture");
         var src=document.createElement("source"); src.type="image/webp"; src.srcset=p.webp;
         var img=document.createElement("img"); img.src=p.jpg; img.alt="第 "+p.i+" 頁"; img.decoding="async"; img.draggable=false;
@@ -269,11 +288,10 @@
     document.addEventListener("keydown",function(e){ if(e.key==="Escape"){ closeDrawer(); return; } if(!pageFlip) return;
       if(e.key==="ArrowLeft") pageFlip.flipPrev(); else if(e.key==="ArrowRight") pageFlip.flipNext(); else if(e.key==="Home") goTo(1); else if(e.key==="End") goTo(TOTAL); });
 
-    function beginLift(){ if(lifted) return; lifted=true; splash.classList.add("lifting"); setTimeout(dismissSplash, reduceMotion?60:720); }
     function startReading(){ if(splashDone) return; splashDone=true;
       if(!ready){ startBtn.textContent="載入中…請稍候"; splashLoad.textContent="載入中…請稍候"; }
       try{ enterImmersive(); }catch(e){}     // fire-and-forget: must never block/hide the book
-      beginLift();
+      dismissSplash();   // fade splash -> book page 1 (transparent ㄅ over peach); the real flip (ㄅ->peach) happens in the book
     }
     splash.addEventListener("click",startReading);
 

@@ -1,448 +1,455 @@
 {
   "title": "ANTI-AUTOBIOGRAPHY 反自傳",
   "subtitle": "AH Student Exhibition 2026",
-  "totalPages": 62,
+  "totalPages": 63,
   "pageParam": "page",
   "pages": [
     {
       "i": 1,
-      "jpg": "pages/page-002.jpg",
-      "webp": "pages/page-002.webp",
-      "thumb": "thumbs/page-002.webp",
-      "src": "ㄆ"
+      "jpg": "pages/page-001.jpg",
+      "webp": "pages/page-001.webp",
+      "thumb": "thumbs/page-001.webp",
+      "src": "B"
     },
     {
       "i": 2,
-      "jpg": "pages/page-004.jpg",
-      "webp": "pages/page-004.webp",
-      "thumb": "thumbs/page-004.webp",
-      "src": "ㄇ"
+      "jpg": "pages/page-002.jpg",
+      "webp": "pages/page-002.webp",
+      "thumb": "thumbs/page-002.webp",
+      "src": "P"
     },
     {
       "i": 3,
-      "jpg": "pages/page-005.jpg",
-      "webp": "pages/page-005.webp",
-      "thumb": "thumbs/page-005.webp",
-      "src": "ㄇ"
+      "jpg": "pages/page-004.jpg",
+      "webp": "pages/page-004.webp",
+      "thumb": "thumbs/page-004.webp",
+      "src": "M"
     },
     {
       "i": 4,
-      "jpg": "pages/page-006.jpg",
-      "webp": "pages/page-006.webp",
-      "thumb": "thumbs/page-006.webp",
-      "src": "ㄇ"
+      "jpg": "pages/page-005.jpg",
+      "webp": "pages/page-005.webp",
+      "thumb": "thumbs/page-005.webp",
+      "src": "M"
     },
     {
       "i": 5,
-      "jpg": "pages/page-007.jpg",
-      "webp": "pages/page-007.webp",
-      "thumb": "thumbs/page-007.webp",
-      "src": "ㄇ"
+      "jpg": "pages/page-006.jpg",
+      "webp": "pages/page-006.webp",
+      "thumb": "thumbs/page-006.webp",
+      "src": "M"
     },
     {
       "i": 6,
-      "jpg": "pages/page-008.jpg",
-      "webp": "pages/page-008.webp",
-      "thumb": "thumbs/page-008.webp",
-      "src": "ㄇ"
+      "jpg": "pages/page-007.jpg",
+      "webp": "pages/page-007.webp",
+      "thumb": "thumbs/page-007.webp",
+      "src": "M"
     },
     {
       "i": 7,
-      "jpg": "pages/page-009.jpg",
-      "webp": "pages/page-009.webp",
-      "thumb": "thumbs/page-009.webp",
-      "src": "ㄇ"
+      "jpg": "pages/page-008.jpg",
+      "webp": "pages/page-008.webp",
+      "thumb": "thumbs/page-008.webp",
+      "src": "M"
     },
     {
       "i": 8,
-      "jpg": "pages/page-010.jpg",
-      "webp": "pages/page-010.webp",
-      "thumb": "thumbs/page-010.webp",
-      "src": "ㄇ"
+      "jpg": "pages/page-009.jpg",
+      "webp": "pages/page-009.webp",
+      "thumb": "thumbs/page-009.webp",
+      "src": "M"
     },
     {
       "i": 9,
-      "jpg": "pages/page-011.jpg",
-      "webp": "pages/page-011.webp",
-      "thumb": "thumbs/page-011.webp",
-      "src": "ㄇ"
+      "jpg": "pages/page-010.jpg",
+      "webp": "pages/page-010.webp",
+      "thumb": "thumbs/page-010.webp",
+      "src": "M"
     },
     {
       "i": 10,
-      "jpg": "pages/page-012.jpg",
-      "webp": "pages/page-012.webp",
-      "thumb": "thumbs/page-012.webp",
-      "src": "ㄇ"
+      "jpg": "pages/page-011.jpg",
+      "webp": "pages/page-011.webp",
+      "thumb": "thumbs/page-011.webp",
+      "src": "M"
     },
     {
       "i": 11,
-      "jpg": "pages/page-013.jpg",
-      "webp": "pages/page-013.webp",
-      "thumb": "thumbs/page-013.webp",
-      "src": "ㄇ"
+      "jpg": "pages/page-012.jpg",
+      "webp": "pages/page-012.webp",
+      "thumb": "thumbs/page-012.webp",
+      "src": "M"
     },
     {
       "i": 12,
-      "jpg": "pages/page-014.jpg",
-      "webp": "pages/page-014.webp",
-      "thumb": "thumbs/page-014.webp",
-      "src": "ㄇ"
+      "jpg": "pages/page-013.jpg",
+      "webp": "pages/page-013.webp",
+      "thumb": "thumbs/page-013.webp",
+      "src": "M"
     },
     {
       "i": 13,
-      "jpg": "pages/page-015.jpg",
-      "webp": "pages/page-015.webp",
-      "thumb": "thumbs/page-015.webp",
-      "src": "ㄇ"
+      "jpg": "pages/page-014.jpg",
+      "webp": "pages/page-014.webp",
+      "thumb": "thumbs/page-014.webp",
+      "src": "M"
     },
     {
       "i": 14,
-      "jpg": "pages/page-016.jpg",
-      "webp": "pages/page-016.webp",
-      "thumb": "thumbs/page-016.webp",
-      "src": "ㄇ"
+      "jpg": "pages/page-015.jpg",
+      "webp": "pages/page-015.webp",
+      "thumb": "thumbs/page-015.webp",
+      "src": "M"
     },
     {
       "i": 15,
-      "jpg": "pages/page-017.jpg",
-      "webp": "pages/page-017.webp",
-      "thumb": "thumbs/page-017.webp",
-      "src": "ㄇ"
+      "jpg": "pages/page-016.jpg",
+      "webp": "pages/page-016.webp",
+      "thumb": "thumbs/page-016.webp",
+      "src": "M"
     },
     {
       "i": 16,
-      "jpg": "pages/page-018.jpg",
-      "webp": "pages/page-018.webp",
-      "thumb": "thumbs/page-018.webp",
-      "src": "ㄇ"
+      "jpg": "pages/page-017.jpg",
+      "webp": "pages/page-017.webp",
+      "thumb": "thumbs/page-017.webp",
+      "src": "M"
     },
     {
       "i": 17,
-      "jpg": "pages/page-019.jpg",
-      "webp": "pages/page-019.webp",
-      "thumb": "thumbs/page-019.webp",
-      "src": "ㄇ"
+      "jpg": "pages/page-018.jpg",
+      "webp": "pages/page-018.webp",
+      "thumb": "thumbs/page-018.webp",
+      "src": "M"
     },
     {
       "i": 18,
-      "jpg": "pages/page-020.jpg",
-      "webp": "pages/page-020.webp",
-      "thumb": "thumbs/page-020.webp",
-      "src": "ㄇ"
+      "jpg": "pages/page-019.jpg",
+      "webp": "pages/page-019.webp",
+      "thumb": "thumbs/page-019.webp",
+      "src": "M"
     },
     {
       "i": 19,
-      "jpg": "pages/page-021.jpg",
-      "webp": "pages/page-021.webp",
-      "thumb": "thumbs/page-021.webp",
-      "src": "ㄇ"
+      "jpg": "pages/page-020.jpg",
+      "webp": "pages/page-020.webp",
+      "thumb": "thumbs/page-020.webp",
+      "src": "M"
     },
     {
       "i": 20,
-      "jpg": "pages/page-022.jpg",
-      "webp": "pages/page-022.webp",
-      "thumb": "thumbs/page-022.webp",
-      "src": "ㄇ"
+      "jpg": "pages/page-021.jpg",
+      "webp": "pages/page-021.webp",
+      "thumb": "thumbs/page-021.webp",
+      "src": "M"
     },
     {
       "i": 21,
-      "jpg": "pages/page-023.jpg",
-      "webp": "pages/page-023.webp",
-      "thumb": "thumbs/page-023.webp",
-      "src": "ㄇ"
+      "jpg": "pages/page-022.jpg",
+      "webp": "pages/page-022.webp",
+      "thumb": "thumbs/page-022.webp",
+      "src": "M"
     },
     {
       "i": 22,
-      "jpg": "pages/page-024.jpg",
-      "webp": "pages/page-024.webp",
-      "thumb": "thumbs/page-024.webp",
-      "src": "ㄇ"
+      "jpg": "pages/page-023.jpg",
+      "webp": "pages/page-023.webp",
+      "thumb": "thumbs/page-023.webp",
+      "src": "M"
     },
     {
       "i": 23,
-      "jpg": "pages/page-025.jpg",
-      "webp": "pages/page-025.webp",
-      "thumb": "thumbs/page-025.webp",
-      "src": "ㄇ"
+      "jpg": "pages/page-024.jpg",
+      "webp": "pages/page-024.webp",
+      "thumb": "thumbs/page-024.webp",
+      "src": "M"
     },
     {
       "i": 24,
-      "jpg": "pages/page-026.jpg",
-      "webp": "pages/page-026.webp",
-      "thumb": "thumbs/page-026.webp",
-      "src": "ㄇ"
+      "jpg": "pages/page-025.jpg",
+      "webp": "pages/page-025.webp",
+      "thumb": "thumbs/page-025.webp",
+      "src": "M"
     },
     {
       "i": 25,
-      "jpg": "pages/page-027.jpg",
-      "webp": "pages/page-027.webp",
-      "thumb": "thumbs/page-027.webp",
-      "src": "ㄇ"
+      "jpg": "pages/page-026.jpg",
+      "webp": "pages/page-026.webp",
+      "thumb": "thumbs/page-026.webp",
+      "src": "M"
     },
     {
       "i": 26,
-      "jpg": "pages/page-028.jpg",
-      "webp": "pages/page-028.webp",
-      "thumb": "thumbs/page-028.webp",
-      "src": "ㄇ"
+      "jpg": "pages/page-027.jpg",
+      "webp": "pages/page-027.webp",
+      "thumb": "thumbs/page-027.webp",
+      "src": "M"
     },
     {
       "i": 27,
-      "jpg": "pages/page-029.jpg",
-      "webp": "pages/page-029.webp",
-      "thumb": "thumbs/page-029.webp",
-      "src": "ㄇ"
+      "jpg": "pages/page-028.jpg",
+      "webp": "pages/page-028.webp",
+      "thumb": "thumbs/page-028.webp",
+      "src": "M"
     },
     {
       "i": 28,
-      "jpg": "pages/page-030.jpg",
-      "webp": "pages/page-030.webp",
-      "thumb": "thumbs/page-030.webp",
-      "src": "ㄇ"
+      "jpg": "pages/page-029.jpg",
+      "webp": "pages/page-029.webp",
+      "thumb": "thumbs/page-029.webp",
+      "src": "M"
     },
     {
       "i": 29,
-      "jpg": "pages/page-031.jpg",
-      "webp": "pages/page-031.webp",
-      "thumb": "thumbs/page-031.webp",
-      "src": "ㄇ"
+      "jpg": "pages/page-030.jpg",
+      "webp": "pages/page-030.webp",
+      "thumb": "thumbs/page-030.webp",
+      "src": "M"
     },
     {
       "i": 30,
-      "jpg": "pages/page-032.jpg",
-      "webp": "pages/page-032.webp",
-      "thumb": "thumbs/page-032.webp",
-      "src": "ㄇ"
+      "jpg": "pages/page-031.jpg",
+      "webp": "pages/page-031.webp",
+      "thumb": "thumbs/page-031.webp",
+      "src": "M"
     },
     {
       "i": 31,
-      "jpg": "pages/page-033.jpg",
-      "webp": "pages/page-033.webp",
-      "thumb": "thumbs/page-033.webp",
-      "src": "ㄇ"
+      "jpg": "pages/page-032.jpg",
+      "webp": "pages/page-032.webp",
+      "thumb": "thumbs/page-032.webp",
+      "src": "M"
     },
     {
       "i": 32,
-      "jpg": "pages/page-034.jpg",
-      "webp": "pages/page-034.webp",
-      "thumb": "thumbs/page-034.webp",
-      "src": "ㄇ"
+      "jpg": "pages/page-033.jpg",
+      "webp": "pages/page-033.webp",
+      "thumb": "thumbs/page-033.webp",
+      "src": "M"
     },
     {
       "i": 33,
-      "jpg": "pages/page-035.jpg",
-      "webp": "pages/page-035.webp",
-      "thumb": "thumbs/page-035.webp",
-      "src": "ㄇ"
+      "jpg": "pages/page-034.jpg",
+      "webp": "pages/page-034.webp",
+      "thumb": "thumbs/page-034.webp",
+      "src": "M"
     },
     {
       "i": 34,
-      "jpg": "pages/page-036.jpg",
-      "webp": "pages/page-036.webp",
-      "thumb": "thumbs/page-036.webp",
-      "src": "ㄇ"
+      "jpg": "pages/page-035.jpg",
+      "webp": "pages/page-035.webp",
+      "thumb": "thumbs/page-035.webp",
+      "src": "M"
     },
     {
       "i": 35,
-      "jpg": "pages/page-037.jpg",
-      "webp": "pages/page-037.webp",
-      "thumb": "thumbs/page-037.webp",
-      "src": "ㄇ"
+      "jpg": "pages/page-036.jpg",
+      "webp": "pages/page-036.webp",
+      "thumb": "thumbs/page-036.webp",
+      "src": "M"
     },
     {
       "i": 36,
-      "jpg": "pages/page-038.jpg",
-      "webp": "pages/page-038.webp",
-      "thumb": "thumbs/page-038.webp",
-      "src": "ㄇ"
+      "jpg": "pages/page-037.jpg",
+      "webp": "pages/page-037.webp",
+      "thumb": "thumbs/page-037.webp",
+      "src": "M"
     },
     {
       "i": 37,
-      "jpg": "pages/page-039.jpg",
-      "webp": "pages/page-039.webp",
-      "thumb": "thumbs/page-039.webp",
-      "src": "ㄇ"
+      "jpg": "pages/page-038.jpg",
+      "webp": "pages/page-038.webp",
+      "thumb": "thumbs/page-038.webp",
+      "src": "M"
     },
     {
       "i": 38,
-      "jpg": "pages/page-040.jpg",
-      "webp": "pages/page-040.webp",
-      "thumb": "thumbs/page-040.webp",
-      "src": "ㄇ"
+      "jpg": "pages/page-039.jpg",
+      "webp": "pages/page-039.webp",
+      "thumb": "thumbs/page-039.webp",
+      "src": "M"
     },
     {
       "i": 39,
-      "jpg": "pages/page-041.jpg",
-      "webp": "pages/page-041.webp",
-      "thumb": "thumbs/page-041.webp",
-      "src": "ㄇ"
+      "jpg": "pages/page-040.jpg",
+      "webp": "pages/page-040.webp",
+      "thumb": "thumbs/page-040.webp",
+      "src": "M"
     },
     {
       "i": 40,
-      "jpg": "pages/page-042.jpg",
-      "webp": "pages/page-042.webp",
-      "thumb": "thumbs/page-042.webp",
-      "src": "ㄇ"
+      "jpg": "pages/page-041.jpg",
+      "webp": "pages/page-041.webp",
+      "thumb": "thumbs/page-041.webp",
+      "src": "M"
     },
     {
       "i": 41,
-      "jpg": "pages/page-043.jpg",
-      "webp": "pages/page-043.webp",
-      "thumb": "thumbs/page-043.webp",
-      "src": "ㄇ"
+      "jpg": "pages/page-042.jpg",
+      "webp": "pages/page-042.webp",
+      "thumb": "thumbs/page-042.webp",
+      "src": "M"
     },
     {
       "i": 42,
-      "jpg": "pages/page-044.jpg",
-      "webp": "pages/page-044.webp",
-      "thumb": "thumbs/page-044.webp",
-      "src": "ㄇ"
+      "jpg": "pages/page-043.jpg",
+      "webp": "pages/page-043.webp",
+      "thumb": "thumbs/page-043.webp",
+      "src": "M"
     },
     {
       "i": 43,
-      "jpg": "pages/page-045.jpg",
-      "webp": "pages/page-045.webp",
-      "thumb": "thumbs/page-045.webp",
-      "src": "ㄇ"
+      "jpg": "pages/page-044.jpg",
+      "webp": "pages/page-044.webp",
+      "thumb": "thumbs/page-044.webp",
+      "src": "M"
     },
     {
       "i": 44,
-      "jpg": "pages/page-046.jpg",
-      "webp": "pages/page-046.webp",
-      "thumb": "thumbs/page-046.webp",
-      "src": "ㄇ"
+      "jpg": "pages/page-045.jpg",
+      "webp": "pages/page-045.webp",
+      "thumb": "thumbs/page-045.webp",
+      "src": "M"
     },
     {
       "i": 45,
-      "jpg": "pages/page-047.jpg",
-      "webp": "pages/page-047.webp",
-      "thumb": "thumbs/page-047.webp",
-      "src": "ㄇ"
+      "jpg": "pages/page-046.jpg",
+      "webp": "pages/page-046.webp",
+      "thumb": "thumbs/page-046.webp",
+      "src": "M"
     },
     {
       "i": 46,
-      "jpg": "pages/page-048.jpg",
-      "webp": "pages/page-048.webp",
-      "thumb": "thumbs/page-048.webp",
-      "src": "ㄇ"
+      "jpg": "pages/page-047.jpg",
+      "webp": "pages/page-047.webp",
+      "thumb": "thumbs/page-047.webp",
+      "src": "M"
     },
     {
       "i": 47,
-      "jpg": "pages/page-049.jpg",
-      "webp": "pages/page-049.webp",
-      "thumb": "thumbs/page-049.webp",
-      "src": "ㄇ"
+      "jpg": "pages/page-048.jpg",
+      "webp": "pages/page-048.webp",
+      "thumb": "thumbs/page-048.webp",
+      "src": "M"
     },
     {
       "i": 48,
-      "jpg": "pages/page-050.jpg",
-      "webp": "pages/page-050.webp",
-      "thumb": "thumbs/page-050.webp",
-      "src": "ㄇ"
+      "jpg": "pages/page-049.jpg",
+      "webp": "pages/page-049.webp",
+      "thumb": "thumbs/page-049.webp",
+      "src": "M"
     },
     {
       "i": 49,
-      "jpg": "pages/page-051.jpg",
-      "webp": "pages/page-051.webp",
-      "thumb": "thumbs/page-051.webp",
-      "src": "ㄇ"
+      "jpg": "pages/page-050.jpg",
+      "webp": "pages/page-050.webp",
+      "thumb": "thumbs/page-050.webp",
+      "src": "M"
     },
     {
       "i": 50,
-      "jpg": "pages/page-052.jpg",
-      "webp": "pages/page-052.webp",
-      "thumb": "thumbs/page-052.webp",
-      "src": "ㄇ"
+      "jpg": "pages/page-051.jpg",
+      "webp": "pages/page-051.webp",
+      "thumb": "thumbs/page-051.webp",
+      "src": "M"
     },
     {
       "i": 51,
-      "jpg": "pages/page-053.jpg",
-      "webp": "pages/page-053.webp",
-      "thumb": "thumbs/page-053.webp",
-      "src": "ㄇ"
+      "jpg": "pages/page-052.jpg",
+      "webp": "pages/page-052.webp",
+      "thumb": "thumbs/page-052.webp",
+      "src": "M"
     },
     {
       "i": 52,
-      "jpg": "pages/page-054.jpg",
-      "webp": "pages/page-054.webp",
-      "thumb": "thumbs/page-054.webp",
-      "src": "ㄇ"
+      "jpg": "pages/page-053.jpg",
+      "webp": "pages/page-053.webp",
+      "thumb": "thumbs/page-053.webp",
+      "src": "M"
     },
     {
       "i": 53,
-      "jpg": "pages/page-055.jpg",
-      "webp": "pages/page-055.webp",
-      "thumb": "thumbs/page-055.webp",
-      "src": "ㄇ"
+      "jpg": "pages/page-054.jpg",
+      "webp": "pages/page-054.webp",
+      "thumb": "thumbs/page-054.webp",
+      "src": "M"
     },
     {
       "i": 54,
-      "jpg": "pages/page-056.jpg",
-      "webp": "pages/page-056.webp",
-      "thumb": "thumbs/page-056.webp",
-      "src": "ㄇ"
+      "jpg": "pages/page-055.jpg",
+      "webp": "pages/page-055.webp",
+      "thumb": "thumbs/page-055.webp",
+      "src": "M"
     },
     {
       "i": 55,
-      "jpg": "pages/page-057.jpg",
-      "webp": "pages/page-057.webp",
-      "thumb": "thumbs/page-057.webp",
-      "src": "ㄇ"
+      "jpg": "pages/page-056.jpg",
+      "webp": "pages/page-056.webp",
+      "thumb": "thumbs/page-056.webp",
+      "src": "M"
     },
     {
       "i": 56,
-      "jpg": "pages/page-058.jpg",
-      "webp": "pages/page-058.webp",
-      "thumb": "thumbs/page-058.webp",
-      "src": "ㄇ"
+      "jpg": "pages/page-057.jpg",
+      "webp": "pages/page-057.webp",
+      "thumb": "thumbs/page-057.webp",
+      "src": "M"
     },
     {
       "i": 57,
-      "jpg": "pages/page-059.jpg",
-      "webp": "pages/page-059.webp",
-      "thumb": "thumbs/page-059.webp",
-      "src": "ㄇ"
+      "jpg": "pages/page-058.jpg",
+      "webp": "pages/page-058.webp",
+      "thumb": "thumbs/page-058.webp",
+      "src": "M"
     },
     {
       "i": 58,
-      "jpg": "pages/page-060.jpg",
-      "webp": "pages/page-060.webp",
-      "thumb": "thumbs/page-060.webp",
-      "src": "ㄇ"
+      "jpg": "pages/page-059.jpg",
+      "webp": "pages/page-059.webp",
+      "thumb": "thumbs/page-059.webp",
+      "src": "M"
     },
     {
       "i": 59,
-      "jpg": "pages/page-061.jpg",
-      "webp": "pages/page-061.webp",
-      "thumb": "thumbs/page-061.webp",
-      "src": "ㄇ"
+      "jpg": "pages/page-060.jpg",
+      "webp": "pages/page-060.webp",
+      "thumb": "thumbs/page-060.webp",
+      "src": "M"
     },
     {
       "i": 60,
-      "jpg": "pages/page-062.jpg",
-      "webp": "pages/page-062.webp",
-      "thumb": "thumbs/page-062.webp",
-      "src": "ㄇ"
+      "jpg": "pages/page-061.jpg",
+      "webp": "pages/page-061.webp",
+      "thumb": "thumbs/page-061.webp",
+      "src": "M"
     },
     {
       "i": 61,
-      "jpg": "pages/page-063.jpg",
-      "webp": "pages/page-063.webp",
-      "thumb": "thumbs/page-063.webp",
-      "src": "ㄇ"
+      "jpg": "pages/page-062.jpg",
+      "webp": "pages/page-062.webp",
+      "thumb": "thumbs/page-062.webp",
+      "src": "M"
     },
     {
       "i": 62,
+      "jpg": "pages/page-063.jpg",
+      "webp": "pages/page-063.webp",
+      "thumb": "thumbs/page-063.webp",
+      "src": "M"
+    },
+    {
+      "i": 63,
       "jpg": "pages/page-065.jpg",
       "webp": "pages/page-065.webp",
       "thumb": "thumbs/page-065.webp",
-      "src": "ㄈ"
+      "src": "F"
     }
   ],
   "anchors": [
     {
       "n": 1,
-      "page": 11,
+      "page": 12,
       "folio": "03",
       "artist": "天貝芽玖",
       "alias": "天芽 / Meg A.",
@@ -452,7 +459,7 @@
     },
     {
       "n": 2,
-      "page": 13,
+      "page": 14,
       "folio": "05",
       "artist": "尤俗晴",
       "alias": "尤時晴 / Sunny Yo",
@@ -462,7 +469,7 @@
     },
     {
       "n": 3,
-      "page": 15,
+      "page": 16,
       "folio": "07",
       "artist": "王鈺晴、張郡育",
       "alias": "Sunny Wang & Jimmy Chang",
@@ -472,7 +479,7 @@
     },
     {
       "n": 4,
-      "page": 17,
+      "page": 18,
       "folio": "09",
       "artist": "江詠竣",
       "alias": "Louis Chiang",
@@ -482,7 +489,7 @@
     },
     {
       "n": 5,
-      "page": 17,
+      "page": 18,
       "folio": "09",
       "artist": "江詠竣",
       "alias": "Louis Chiang",
@@ -492,7 +499,7 @@
     },
     {
       "n": 6,
-      "page": 19,
+      "page": 20,
       "folio": "11",
       "artist": "吳沁霖",
       "alias": "TJ Wu",
@@ -502,7 +509,7 @@
     },
     {
       "n": 7,
-      "page": 21,
+      "page": 22,
       "folio": "13",
       "artist": "汪其珈",
       "alias": "汪汪",
@@ -512,7 +519,7 @@
     },
     {
       "n": 8,
-      "page": 23,
+      "page": 24,
       "folio": "15",
       "artist": "余佳紜",
       "alias": "CDYu",
@@ -522,7 +529,7 @@
     },
     {
       "n": 9,
-      "page": 25,
+      "page": 26,
       "folio": "17",
       "artist": "李宥廷",
       "alias": "PP",
@@ -532,7 +539,7 @@
     },
     {
       "n": 10,
-      "page": 25,
+      "page": 26,
       "folio": "17",
       "artist": "李宥廷、蔡秉叡",
       "alias": "PP & Ray Tsai",
@@ -542,7 +549,7 @@
     },
     {
       "n": 11,
-      "page": 27,
+      "page": 28,
       "folio": "19",
       "artist": "李恩、陳姮予、陳俐璇",
       "alias": "Julie, Melody & Chrystel",
@@ -552,7 +559,7 @@
     },
     {
       "n": 12,
-      "page": 29,
+      "page": 30,
       "folio": "21",
       "artist": "林以嵐",
       "alias": "Lîm í-lâm",
@@ -562,7 +569,7 @@
     },
     {
       "n": 13,
-      "page": 31,
+      "page": 32,
       "folio": "23",
       "artist": "林以嵐",
       "alias": "Lîm í-lâm",
@@ -572,7 +579,7 @@
     },
     {
       "n": 14,
-      "page": 33,
+      "page": 34,
       "folio": "25",
       "artist": "林以嵐",
       "alias": "Lîm í-lâm",
@@ -582,7 +589,7 @@
     },
     {
       "n": 15,
-      "page": 35,
+      "page": 36,
       "folio": "27",
       "artist": "林彤恩",
       "alias": "林吞吞",
@@ -592,7 +599,7 @@
     },
     {
       "n": 16,
-      "page": 37,
+      "page": 38,
       "folio": "29",
       "artist": "夏之心",
       "alias": "Summer Hsia",
@@ -602,7 +609,7 @@
     },
     {
       "n": 17,
-      "page": 39,
+      "page": 40,
       "folio": "31",
       "artist": "許詔輔、錢昀",
       "alias": "Haiiro & cywhitebear",
@@ -612,7 +619,7 @@
     },
     {
       "n": 18,
-      "page": 41,
+      "page": 42,
       "folio": "33",
       "artist": "黃暘",
       "alias": "Huang Young",
@@ -622,7 +629,7 @@
     },
     {
       "n": 19,
-      "page": 41,
+      "page": 42,
       "folio": "33",
       "artist": "黃暘",
       "alias": "Huang Young",
@@ -632,7 +639,7 @@
     },
     {
       "n": 20,
-      "page": 43,
+      "page": 44,
       "folio": "35",
       "artist": "黃暘",
       "alias": "Huang Young",
@@ -642,7 +649,7 @@
     },
     {
       "n": 21,
-      "page": 45,
+      "page": 46,
       "folio": "37",
       "artist": "陳大森",
       "alias": "Morris Chen",
@@ -652,7 +659,7 @@
     },
     {
       "n": 22,
-      "page": 47,
+      "page": 48,
       "folio": "39",
       "artist": "陳以荷",
       "alias": "Yi He",
@@ -662,7 +669,7 @@
     },
     {
       "n": 23,
-      "page": 49,
+      "page": 50,
       "folio": "41",
       "artist": "蔡潔希",
       "alias": "Jlexi Tsai",
@@ -672,7 +679,7 @@
     },
     {
       "n": 24,
-      "page": 51,
+      "page": 52,
       "folio": "43",
       "artist": "蔡宜叡",
       "alias": "Ray Tsai",
@@ -682,7 +689,7 @@
     },
     {
       "n": 25,
-      "page": 53,
+      "page": 54,
       "folio": "45",
       "artist": "賴柏蓁",
       "alias": "百米",
@@ -692,7 +699,7 @@
     },
     {
       "n": 26,
-      "page": 55,
+      "page": 56,
       "folio": "47",
       "artist": "顏睿軍",
       "alias": "Innovation Balloon",
@@ -706,19 +713,19 @@
       "id": "B",
       "page": 1,
       "role": "cover",
-      "label": "封面 ㄅ 透明塑膠片 (ANTI-AUTOBIOGRAPHY)"
+      "label": "封面 ㄅ 透明塑膠片 ANTI-AUTOBIOGRAPHY"
     },
     {
       "id": "P",
-      "page": 1,
+      "page": 2,
       "role": "insert",
-      "label": "peach 作品 (ㄆ)"
+      "label": "peach 作品 ㄆ"
     },
     {
       "id": "F",
-      "page": 62,
+      "page": 63,
       "role": "back",
-      "label": "封底 AH Student Exhibition (ㄈ)"
+      "label": "封底 ㄈ AH Student Exhibition"
     }
   ]
 }
