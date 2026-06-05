@@ -4,6 +4,7 @@
 # --- Build intermediates / large preview images (regenerable by build/render.py) ---
 build/contact_sheet.png
 build/sheet_M*.png
+build/manifest_pages.json
 
 # --- Local test artifacts ---
 .playwright-mcp/
@@ -18,8 +19,8 @@ Thumbs.db
 .DS_Store
 desktop.ini
 
-# --- Local audit/temp scripts (never publish) ---
-build/_*.py
+# --- Local audit/temp scratch files (never publish): _*.py / _*.mjs / _*.png / _*.txt etc. ---
+build/_*
 
 # user-provided source reference image (cover uses high-res ㄆ instead)
 /peach.png
