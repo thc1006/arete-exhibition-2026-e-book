@@ -30,6 +30,8 @@
   #book .page{ background:#fff; overflow:hidden; }
   #book .page picture,#book .page img{ width:100%; height:100%; display:block; }
   #book .page img{ object-fit:contain; background:#fff; }
+  /* StPageFlip sets inline touch-action:pan-y on its wrapper, which blocks two-finger zoom; re-allow pinch-zoom everywhere in the book (landscape spread included) while keeping 1-finger swipe for flipping */
+  #book, #book .stf__wrapper, #book .stf__block, #book .stf__item, #book .page, #book canvas{ touch-action:pan-y pinch-zoom !important; }
 
   #topbar{ position:fixed; top:0; left:0; right:0; height:calc(var(--topbar) + env(safe-area-inset-top)); padding:env(safe-area-inset-top) 8px 0;
     display:flex; align-items:center; gap:8px; z-index:40; background:linear-gradient(to bottom,rgba(0,0,0,.55),rgba(0,0,0,0)); }
